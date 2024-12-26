@@ -9,36 +9,28 @@ function generateWrapped() {
     reader.readAsText(file);
 }
 
-const startDate = new Date("05/08/2023").getTime();
-const messages = [];
 const wordCount = {};
 const emojiCount = {};
 const participants = {};
-let temporary = 0;
 
 function parseFile(content) {
     const lines = content.split(/\n/);
-    
     let currentMessage = null;
 
     for (const line of lines) {
         const match = line.match(regex);
 
         if (match) {
-            // If a new message starts, push the previous one
+            // If a new message starts, process the previous one
             if (currentMessage) {
-                messages.push(currentMessage);
+                processMessage(currentMessage);
             }
 
             // Start a new message
             const [_, _date, time, person, message] = match;
-            const dateParts = _date.split("/")
+            const dateParts = _date.split("/");
             const date = `${dateParts[1]}/${dateParts[0] - 1}/${dateParts[2]}`;
             currentMessage = { date, time, person, message };
-
-            if (new Date(date).getTime() > startDate) {
-                temporary += 1;
-            }
 
             // Track participants
             participants[person] = (participants[person] || 0) + 1;
@@ -49,29 +41,9 @@ function parseFile(content) {
         }
     }
 
-    // Push the last message after looping
+    // Process the last message
     if (currentMessage) {
-        messages.push(currentMessage);
-    }
-
-    // Process the messages
-    for (const msg of messages) {
-        const { message } = msg;
-
-        // Count words
-        const words = message.split(/\s+/);
-        for (const word of words) {
-            const cleanedWord = word.toLowerCase().replace(/[^\w]/g, ""); // Clean punctuation
-            if (cleanedWord) {
-                wordCount[cleanedWord] = (wordCount[cleanedWord] || 0) + 1;
-            }
-        }
-
-        // Count emojis
-        const emojis = [...message.matchAll(emojiRegex)];
-        emojis.forEach(emoji => {
-            emojiCount[emoji[0]] = (emojiCount[emoji[0]] || 0) + 1;
-        });
+        processMessage(currentMessage);
     }
 
     // Example: Get top 10 words/emojis
@@ -79,11 +51,27 @@ function parseFile(content) {
         .sort(([, a], [, b]) => b - a)
         .slice(0, 10);
     console.log("Top 10 Words:", topWords);
+
     const topEmojis = Object.entries(emojiCount)
         .sort(([, a], [, b]) => b - a)
         .slice(0, 10);
     console.log("Top 10 Emojis:", topEmojis);
-    console.log("Participants", participants);
+    console.log("Participants:", participants);
+}
+
+function processMessage(messageData) {
+    const words = messageData.message.split(/\s+/);
+    for (const word of words) {
+        const cleanedWord = word.toLowerCase().replace(/[^\w]/g, "");
+        if (cleanedWord) {
+            wordCount[cleanedWord] = (wordCount[cleanedWord] || 0) + 1;
+        }
+    }
+
+    const emojis = [...messageData.message.matchAll(emojiRegex)];
+    emojis.forEach(emoji => {
+        emojiCount[emoji[0]] = (emojiCount[emoji[0]] || 0) + 1;
+    });
 }
 
 
