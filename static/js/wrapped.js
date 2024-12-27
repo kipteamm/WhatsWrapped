@@ -12,6 +12,17 @@ function generateWrapped() {
 const wordCount = {};
 const emojiCount = {};
 const participants = {};
+const hours = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0, 13: 0, 14: 0, 15: 0, 16: 0, 17: 0, 18: 0, 19: 0, 20: 0, 21: 0, 22: 0, 23: 0};
+const days = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0};
+const months = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0};
+const years = {}
+let total = 0;
+const bestDay = {date: null, messages: 0};
+const today = {date: null, messages: 0};
+const firstChatter = {};
+const streak = {startDate: null, previousDate: null, streak: 0};
+const bestStreak = {startDate: null, endDate: null, streak: 0};
+const yearDays = {previousDate: null};
 
 function parseFile(content) {
     const lines = content.split(/\n/);
@@ -20,33 +31,25 @@ function parseFile(content) {
     for (const line of lines) {
         const match = line.match(regex);
 
-        if (match) {
-            // If a new message starts, process the previous one
-            if (currentMessage) {
-                processMessage(currentMessage);
-            }
-
-            // Start a new message
-            const [_, _date, time, person, message] = match;
-            const dateParts = _date.split("/");
-            const date = `${dateParts[1]}/${dateParts[0] - 1}/${dateParts[2]}`;
-            currentMessage = { date, time, person, message };
-
-            // Track participants
-            participants[person] = (participants[person] || 0) + 1;
-
-        } else if (currentMessage) {
-            // If no match, append line to the current message
-            currentMessage.message += `\n${line.trim()}`;
+        if (!match) {
+            if (currentMessage) currentMessage.message += `\n${line.trim()}`;
+            continue;
         }
+
+        if (currentMessage) processMessage(currentMessage);
+
+        // Start a new message
+        const [_, _date, time, person, message] = match;
+        const dateParts = _date.split("/");
+        const date = `${dateParts[1]}/${dateParts[0]}/${dateParts[2]}`;
+        currentMessage = { date, time, person, message };
     }
 
     // Process the last message
-    if (currentMessage) {
-        processMessage(currentMessage);
-    }
+    if (currentMessage) processMessage(currentMessage);
 
-    // Example: Get top 10 words/emojis
+    console.log("total:", total);
+
     const topWords = Object.entries(wordCount)
         .sort(([, a], [, b]) => b - a)
         .slice(0, 10);
@@ -57,9 +60,23 @@ function parseFile(content) {
         .slice(0, 10);
     console.log("Top 10 Emojis:", topEmojis);
     console.log("Participants:", participants);
+    console.log("Most popular hours:", hours);
+    console.log("Most popular days of the week:", days);
+    console.log("Most popular months:", months);
+    console.log("Most popular years:", years);
+    console.log("Best day:", bestDay);
+    console.log("First chatter:",firstChatter);
+    console.log("Streak", bestStreak);
+    console.log("Days per year", yearDays);
 }
 
 function processMessage(messageData) {
+    total += 1;
+
+    // Count participants
+    participants[messageData.person] = (participants[messageData.person] || 0) + 1;
+
+    // Count words
     const words = messageData.message.split(/\s+/);
     for (const word of words) {
         const cleanedWord = word.toLowerCase().replace(/[^\w]/g, "");
@@ -68,11 +85,70 @@ function processMessage(messageData) {
         }
     }
 
+    // Count emojis
     const emojis = [...messageData.message.matchAll(emojiRegex)];
     emojis.forEach(emoji => {
         emojiCount[emoji[0]] = (emojiCount[emoji[0]] || 0) + 1;
     });
+
+    // Days graph
+    const date = new Date(`${messageData.date} ${messageData.time}`);
+
+    if (!today.date || (!isSameDay(today.date, date))) {
+        if (today.messages > bestDay.messages) {
+            bestDay.messages = today.messages
+            bestDay.date = today.date;
+        }
+        
+        today.date = date;
+        today.messages = 0;
+        firstChatter[messageData.person] = (firstChatter[messageData.person] || 0) + 1;
+    }
+
+    const year = date.getFullYear();
+    hours[date.getHours()] += 1;
+    days[date.getDay()] += 1;
+    months[date.getMonth()] += 1;
+    years[year] = (years[year] || 0) + 1;
+    today.messages += 1;
+
+    const absoluteDate = getAbsoluteDate(date);
+
+    if (!streak.startDate || (Math.abs(streak.previousDate - absoluteDate) > 86400000)) {
+        if (streak.streak > bestStreak.streak) {
+            bestStreak.startDate = streak.startDate;
+            bestStreak.endDate = streak.previousDate;
+            bestStreak.streak = streak.streak; 
+        }
+        streak.startDate = absoluteDate;
+        streak.previousDate = absoluteDate;
+        streak.streak = 1;
+    } else if (streak.previousDate !== absoluteDate) {
+        streak.previousDate = absoluteDate;
+        streak.streak += 1;
+    }
+
+    if (!yearDays.previousDate || (yearDays.previousDate - absoluteDate != 0)) {
+        yearDays[year] = (yearDays[year] || 0) + 1;
+        yearDays.previousDate = absoluteDate;
+    }
 }
+
+function getAbsoluteDate(date) {
+    const newDate = new Date(date);
+    return newDate.setHours(0, 0, 0, 0);
+}
+
+function isSameDay(date1, date2) {
+    const d1 = new Date(date1);
+    d1.setHours(0, 0, 0, 0);
+
+    const d2 = new Date(date2);
+    d2.setHours(0, 0, 0, 0);
+
+    return d1.getTime() === d2.getTime();
+}
+
 
 
 // //https://quickchart.io/wordcloud
@@ -85,3 +161,4 @@ function processMessage(messageData) {
 //     "scale": "linear",
 //     "text": "<churchill's full speech...>"
 //   }
+// ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
