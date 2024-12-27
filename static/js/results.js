@@ -69,7 +69,6 @@ function dataInit() {
     document.getElementById("streak-start").innerHTML = new Date(data.streak.startDate).toLocaleDateString("en-UK", dateFormat);
     document.getElementById("streak-end").innerHTML = new Date(data.streak.endDate).toLocaleDateString("en-UK", dateFormat);
     document.getElementById("streak").innerHTML = `${data.streak.streak} day${data.streak.streak === 1? "" : "s"}`;
-    wordsChart();
     document.getElementById("total_emojis").innerHTML = data.top_10_emojis[0][1];
     emojiChart();
 }
@@ -171,6 +170,67 @@ function monthChart() {
     });
 }
 
+function wordsChart() {
+    const canvas = document.getElementById("words-chart");
+
+    const ctx = canvas.getContext("2d");
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+
+    const width = canvas.width;
+    const height = canvas.height;
+
+    ctx.clearRect(0, 0, width, height);
+    ctx.textBaseline = "middle";
+    ctx.textAlign = "center";
+
+    const positions = [];
+
+    function placeWord(word, size) {
+        ctx.font = `${size}px Arial`;
+        ctx.fillStyle = '#'+Math.floor(Math.random()*16777215).toString(16);
+        const metrics = ctx.measureText(word);
+        const w = metrics.width;
+        const h = size * 0.8; // Approximate height (depends on the font)
+
+        const step = 20;
+        let angle = 0;
+        let radius = 0;
+
+        while (true) {
+            const x = width / 2 + radius * Math.cos(angle) - w / 2;
+            const y = height / 2 + radius * Math.sin(angle) - h / 2;
+
+            const overlap = positions.some(pos => {
+                return (
+                    x < pos.x + pos.w &&
+                    x + w > pos.x &&
+                    y < pos.y + pos.h &&
+                    y + h > pos.y
+                );
+            });
+
+            if (!overlap) {
+                ctx.fillText(word, x + w / 2, y + h / 2); 
+                positions.push({ x, y, w, h });
+                break;
+            }
+
+            angle += step * (Math.PI / 180);
+            if (angle >= 2 * Math.PI) {
+                angle = 0;
+                radius += step;
+            }
+        }
+    }
+
+    data.top_50_words.forEach(word => {
+        const size = Math.sqrt(word[1]) / 1.5;
+        placeWord(word[0], size);
+    });
+}
+
 function emojiChart() {
     const ctx = document.getElementById('emoji-chart');
     data.top_10_emojis.shift();
@@ -229,6 +289,10 @@ function nextPage() {
     document.getElementById(`page-${pageId}`).classList.remove("active");
     pageId++;
     document.getElementById(`page-${pageId}`).classList.add("active");
+
+    if (pageId === 12) {
+        wordsChart();
+    }
 }
 
 function loadPage(newPageId) {
