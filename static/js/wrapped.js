@@ -11,7 +11,7 @@ function generateWrapped() {
 }
 
 const wordCount = {};
-const emojiCount = {};
+const emojiCount = {total: 0};
 const participants = {};
 const hours = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0, 13: 0, 14: 0, 15: 0, 16: 0, 17: 0, 18: 0, 19: 0, 20: 0, 21: 0, 22: 0, 23: 0};
 const days = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0};
@@ -58,27 +58,29 @@ function parseFile(content) {
     if (currentMessage) processMessage(currentMessage);
     const data = JSON.stringify({
         total: total,
-        top_50_words: Object.entries(wordCount).sort(([, a], [, b]) => b - a).slice(0, 50),
-        top_10_emojis: Object.entries(emojiCount).sort(([, a], [, b]) => b - a).slice(0, 10),
-        messages_per_participants: participants,
+        top_50_words: sortObject(wordCount).slice(0, 50),
+        top_10_emojis: sortObject(emojiCount).slice(0, 11),
+        messages_per_participant: participants,
         first_chatter: firstChatter,
         longest_message: longestMessage,
         message_length_per_participant: messageLength,
         messages_edit_per_participant: messageEdits,
         media_per_participant: mediaOmitted,
         hours: hours,
-        days: days,
-        months: months,
+        days: sortObject(days),
+        months: sortObject(months),
         years: years,
         days_per_year: yearDays,
         best_day: bestDay,
         streak: bestStreak,
     });
 
+    console.log(data);
+
     const encoder = new TextEncoder();
     const utf8Bytes = encoder.encode(data);
 
-    return window.location.href='/results?d=' + btoa(String.fromCharCode(...utf8Bytes)).replace(/\+/g, '-').replace(/\//g, '_');;
+    return window.location.href='/results?d=' + btoa(String.fromCharCode(...utf8Bytes)).replace(/\+/g, '-').replace(/\//g, '_');
 }
 
 function processMessage(messageData) {
@@ -113,6 +115,7 @@ function processMessage(messageData) {
         const emojis = [...word.matchAll(emojiRegex)];
         emojis.forEach(emoji => {
             emojiCount[emoji[0]] = (emojiCount[emoji[0]] || 0) + 1;
+            emojiCount.total += 1;
         })
 
         const cleanedWord = word.toLowerCase().replace(/[^\w]/g, "");
@@ -181,4 +184,8 @@ function isSameDay(date1, date2) {
     d2.setHours(0, 0, 0, 0);
 
     return d1.getTime() === d2.getTime();
+}
+
+function sortObject(object) {
+    return Object.entries(object).sort(([, a], [, b]) => b - a);
 }

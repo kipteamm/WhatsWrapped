@@ -1,6 +1,4 @@
 
----
-
 ### **Start Screen - Welcome to Your WhatsApp Journey!**
 
 - **Text Reveal:** "Ready to take a deep dive into your WhatsApp journey?" (animated, fade in)
@@ -108,19 +106,7 @@
 
 - **Anticipation Build-up:** "That’s a wrap! Congratulations on your WhatsApp Journey!"
 
----
-
 ### **Final Card - Thank You and Farewell**
 
 - **Text Animation:** "Thanks for reviewing your WhatsApp stats! 🎉"
 - **Text Reveal:** "Can’t wait to see what you achieve next year!"
-
----
-
-### Key Details of the Reveal Flow:
-1. **Narrative Structure:** It builds suspense by revealing smaller insights first and saving the most impressive data (like the best day, longest streak, etc.) for later.
-2. **Text Animations:** The use of fun text effects (counting numbers, exploding text, floating emojis) keeps the flow dynamic.
-3. **Visuals:** Use of graphs, charts, and progress bars to visualize the data in an engaging way.
-4. **Anticipation:** Build-up between cards to keep the user excited about what’s next. The transition from data-driven insights to fun visuals adds to the excitement.
-
-This structure should keep users engaged and excited as they move from one interesting insight to the next, creating a smooth experience similar to Spotify Wrapped!
