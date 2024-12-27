@@ -8,6 +8,11 @@ app.config["DEBUG"] = True
 @app.get("/")
 def index():
     return render_template("index.html")
+
+
+@app.get("/results")
+def results():
+    return render_template("results.html")
     
 
 @app.get("/privacy-policy")

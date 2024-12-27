@@ -56,31 +56,29 @@ function parseFile(content) {
 
     // Process the last message
     if (currentMessage) processMessage(currentMessage);
+    const data = JSON.stringify({
+        total: total,
+        top_50_words: Object.entries(wordCount).sort(([, a], [, b]) => b - a).slice(0, 50),
+        top_10_emojis: Object.entries(emojiCount).sort(([, a], [, b]) => b - a).slice(0, 10),
+        messages_per_participants: participants,
+        first_chatter: firstChatter,
+        longest_message: longestMessage,
+        message_length_per_participant: messageLength,
+        messages_edit_per_participant: messageEdits,
+        media_per_participant: mediaOmitted,
+        hours: hours,
+        days: days,
+        months: months,
+        years: years,
+        days_per_year: yearDays,
+        best_day: bestDay,
+        streak: bestStreak,
+    });
 
-    console.log("total:", total);
+    const encoder = new TextEncoder();
+    const utf8Bytes = encoder.encode(data);
 
-    const topWords = Object.entries(wordCount)
-        .sort(([, a], [, b]) => b - a)
-        .slice(0, 50);
-    console.log("Top 10 Words:", topWords);
-
-    const topEmojis = Object.entries(emojiCount)
-        .sort(([, a], [, b]) => b - a)
-        .slice(0, 10);
-    console.log("Top 10 Emojis:", topEmojis);
-    console.log("Participants:", participants);
-    console.log("Most popular hours:", hours);
-    console.log("Most popular days of the week:", days);
-    console.log("Most popular months:", months);
-    console.log("Most popular years:", years);
-    console.log("Best day:", bestDay);
-    console.log("First chatter:", firstChatter);
-    console.log("Streak:", bestStreak);
-    console.log("Days per year:", yearDays);
-    console.log("Longest message:", longestMessage);
-    console.log("Message length:", messageLength);
-    console.log("Messages edited:", messageEdits);
-    console.log("Media omitted:", mediaOmitted);
+    return window.location.href='/results?d=' + btoa(String.fromCharCode(...utf8Bytes)).replace(/\+/g, '-').replace(/\//g, '_');;
 }
 
 function processMessage(messageData) {
@@ -184,15 +182,3 @@ function isSameDay(date1, date2) {
 
     return d1.getTime() === d2.getTime();
 }
-
-// //https://quickchart.io/wordcloud
-// data = {
-//     "format": "png",
-//     "width": 1000,
-//     "height": 1000,
-//     "fontFamily": "sans-serif",
-//     "fontScale": 15,
-//     "scale": "linear",
-//     "text": "<churchill's full speech...>"
-//   }
-// ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
