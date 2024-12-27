@@ -66,7 +66,7 @@ function parseFile(content) {
 
     const topEmojis = Object.entries(emojiCount)
         .sort(([, a], [, b]) => b - a)
-        .slice(0, 50);
+        .slice(0, 10);
     console.log("Top 10 Emojis:", topEmojis);
     console.log("Participants:", participants);
     console.log("Most popular hours:", hours);
@@ -102,25 +102,25 @@ function processMessage(messageData) {
         }
     }
 
-    // Count words
-    const words = messageData.message.split(/\s+/);
-    for (const word of words) {
-        const cleanedWord = word.toLowerCase().replace(/[^\w]/g, "");
-        if (cleanedWord) {
-            wordCount[cleanedWord] = (wordCount[cleanedWord] || 0) + 1;
-        }
-    }
-
-    // Count emojis
-    const emojis = [...messageData.message.matchAll(emojiRegex)];
-    emojis.forEach(emoji => {
-        emojiCount[emoji[0]] = (emojiCount[emoji[0]] || 0) + 1;
-    });
-
     // Longest message
     if (messageData.message.length > longestMessage.length) {
         longestMessage.length = messageData.message.length;
         longestMessage.sender = messageData.person;
+    }
+    
+    // Count words and emojis
+    messageData.message = sw.removeStopwords(messageData.message.split(" "), sw.nld);
+    const words = messageData.message;
+    for (const word of words) {
+        const emojis = [...word.matchAll(emojiRegex)];
+        emojis.forEach(emoji => {
+            emojiCount[emoji[0]] = (emojiCount[emoji[0]] || 0) + 1;
+        })
+
+        const cleanedWord = word.toLowerCase().replace(/[^\w]/g, "");
+        if (!cleanedWord) continue;
+
+        wordCount[cleanedWord] = (wordCount[cleanedWord] || 0) + 1;
     }
 
     // Days graph
