@@ -56,15 +56,16 @@ function parseFile(content) {
 
     // Process the last message
     if (currentMessage) processMessage(currentMessage);
+    delete firstChatter.previousDate;
     const data = JSON.stringify({
         total: total,
         top_50_words: sortObject(wordCount).slice(0, 50),
         top_10_emojis: sortObject(emojiCount).slice(0, 11),
-        messages_per_participant: participants,
-        first_chatter: firstChatter,
+        messages_per_participant: sortObject(participants),
+        first_chatter: sortObject(firstChatter),
         longest_message: longestMessage,
         message_length_per_participant: messageLength,
-        messages_edit_per_participant: messageEdits,
+        messages_edit_per_participant: sortObject(messageEdits),
         media_per_participant: mediaOmitted,
         hours: hours,
         days: sortObject(days),

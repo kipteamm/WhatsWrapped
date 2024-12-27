@@ -13,6 +13,11 @@ def index():
 @app.get("/results")
 def results():
     return render_template("results.html")
+
+
+@app.get("/test")
+def test():
+    return render_template("test.html")
     
 
 @app.get("/privacy-policy")

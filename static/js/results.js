@@ -33,8 +33,8 @@ const today = new Date();
 
 function dataInit() {
     console.log(data);
-    document.getElementById("person-0").innerHTML = Object.keys(data.messages_per_participant)[0];
-    document.getElementById("person-1").innerHTML = Object.keys(data.messages_per_participant)[1];
+    document.getElementById("person-0").innerHTML = data.messages_per_participant[0][0];
+    document.getElementById("person-1").innerHTML = data.messages_per_participant[1][0];
     document.getElementById("total").innerHTML = data.total;
     document.getElementById("best_day_date").innerHTML = new Date(data.best_day.date).toLocaleDateString("en-UK", dateFormat);
     document.getElementById("best_day_messages").innerHTML = data.best_day.messages;
@@ -44,7 +44,7 @@ function dataInit() {
     monthChart();
     let i = 0;
     let count = 0;
-    while (count < Math.min(5, Object.keys(data.days_per_year).length)) {
+    while (today.getFullYear() - i > 2008 && count < Math.min(5, Object.keys(data.days_per_year).length)) {
         const year = today.getFullYear() - i;
         if (!data.days_per_year[year]) {
             i++;
@@ -59,9 +59,17 @@ function dataInit() {
         i++;
         count++;
     }
+    document.getElementById("first_chatter").innerHTML = data.first_chatter[0][0];
+    document.getElementById("second_chatter").innerHTML = data.first_chatter[1][0];
+    document.getElementById("chatter_gap").innerHTML = ((Math.abs(data.first_chatter[0][1] - data.first_chatter[1][1]) / data.first_chatter[0][1]) * 100).toFixed(3);
+    document.getElementById("most_messages").innerHTML = data.messages_per_participant[0][0];
+    document.getElementById("most_messages_percentage").innerHTML = ((data.messages_per_participant[0][1] / data.total) * 100).toFixed(3);
+    document.getElementById("most_edits").innerHTML = data.messages_edit_per_participant[0][0];
+    document.getElementById("edit_ratio").innerHTML = ((data.messages_edit_per_participant[0][1] / ((data.messages_per_participant[0][0] === data.messages_edit_per_participant[0][0])? data.messages_per_participant[0][1]: data.messages_per_participant[1][1])) * 100).toFixed(3);
     document.getElementById("streak-start").innerHTML = new Date(data.streak.startDate).toLocaleDateString("en-UK", dateFormat);
     document.getElementById("streak-end").innerHTML = new Date(data.streak.endDate).toLocaleDateString("en-UK", dateFormat);
     document.getElementById("streak").innerHTML = `${data.streak.streak} day${data.streak.streak === 1? "" : "s"}`;
+    wordsChart();
     document.getElementById("total_emojis").innerHTML = data.top_10_emojis[0][1];
     emojiChart();
 }
@@ -220,5 +228,11 @@ let pageId = 0;
 function nextPage() {
     document.getElementById(`page-${pageId}`).classList.remove("active");
     pageId++;
+    document.getElementById(`page-${pageId}`).classList.add("active");
+}
+
+function loadPage(newPageId) {
+    document.getElementById(`page-${pageId}`).classList.remove("active");
+    pageId = newPageId;
     document.getElementById(`page-${pageId}`).classList.add("active");
 }

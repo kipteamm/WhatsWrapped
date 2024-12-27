@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Word Cloud</title>
+  <style>
+    canvas {
+      display: block;
+      margin: 0 auto;
+      background: #f5f5f5;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="word-cloud" width="800" height="600"></canvas>
+  <script>
+    const data = {
+      top_50_words: [
+        ["da", 8201], ["ni", 5772], ["ma", 5383], ["echt", 4916], 
+        ["das", 4491], ["jij", 2342], ["okay", 1984], ["jou", 1973], 
+        ["nee", 1638], ["ga", 1421], ["heel", 1337], ["je", 1331], 
+        ["goed", 1222], ["ah", 1081], ["gaan", 1073], ["yep", 1071]
+      ]
+    };
+
+    function drawWordCloud(canvasId, words) {
+        const canvas = document.getElementById(canvasId);
+        const ctx = canvas.getContext("2d");
+        const width = canvas.width;
+        const height = canvas.height;
+
+        ctx.clearRect(0, 0, width, height);
+        ctx.textBaseline = "middle";
+        ctx.textAlign = "center";
+
+        const positions = [];
+        function placeWord(word, size) {
+            const step = 5;
+            let angle = 0;
+            let radius = 0;
+
+            while (true) {
+                const x = width / 2 + radius * Math.cos(angle);
+                const y = height / 2 + radius * Math.sin(angle);
+                const metrics = ctx.measureText(word);
+                const w = metrics.width;
+                const h = size;
+
+                // Check for overlap
+                const overlap = positions.some(pos => {
+                    return (
+                        x < pos.x + pos.w &&
+                        x + w > pos.x &&
+                        y < pos.y + pos.h &&
+                        y + h > pos.y
+                    );
+                });
+
+                if (!overlap) {
+                    // No overlap, place the word
+                    ctx.font = `${size}px Arial`;
+                    ctx.fillText(word, x, y);
+                    positions.push({ x, y, w, h });
+                    break;
+                }
+
+                angle += step; // Increment angle
+                if (angle >= 360) {
+                    angle = 0;
+                    radius += step; // Move outward
+                }
+            }
+        }
+
+        words.forEach(word => {
+            const size = Math.sqrt(word[1]); // Scale font size
+            placeWord(word[0], size);
+        });
+    }
+
+    drawWordCloud("word-cloud", data.top_50_words);
+  </script>
+</body>
+</html>
