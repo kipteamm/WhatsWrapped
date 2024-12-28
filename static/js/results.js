@@ -29,12 +29,13 @@ if (document.readyState !== 'loading') {
 const dateFormat = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const textAnimations = ["first", "second", "third", "fourth", "fifth", "sixth"]
 const today = new Date();
 
 function dataInit() {
     console.log(data);
     data.messages_per_participant.forEach(participant => {
-        document.getElementById("page-1").innerHTML += `<h2>${participant[0]}</h2>`;
+        document.getElementById("page-1").innerHTML += `<h2 class="first">${participant[0]}</h2>`;
     });
     document.getElementById("total").innerHTML = data.total;
     document.getElementById("best_day_date").innerHTML = new Date(data.best_day.date).toLocaleDateString("en-UK", dateFormat);
@@ -55,7 +56,7 @@ function dataInit() {
         const message = count === 0 ? "" : "And";
         const percentage = (data.days_per_year[year] / daysInYear(year) * 100).toFixed(3);
 
-        document.getElementById("page-6").innerHTML += `<h${count + 2}>${message} ${percentage}% of ${year}</h${count + 2}>`;
+        document.getElementById("page-6").innerHTML += `<h${count + 2} class="${textAnimations[count + 1]}">${message} ${percentage}% of ${year}</h${count + 2}>`;
 
         i++;
         count++;

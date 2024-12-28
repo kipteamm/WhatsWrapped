@@ -16,22 +16,24 @@
 </head>
 <body>
     <div class="page active" id="page-0">
-        <button onclick="nextPage()">Ready?</button>
+        <div class="button-wrapper">
+            <button onclick="nextPage()"><h2 class="first">Ready?</h2></button>
+        </div>
     </div>
 
     <div class="page" id="page-1"></div>
     
     <div class="page" id="page-2">
-        <h2>You have sent <span id="total">0</span> messages</h2>
+        <h2 class="first">You have sent <span id="total">0</span> messages</h2>
     </div>
 
     <div class="page" id="page-3">
-        <h3>You had your peak on</h3>
-        <h2><span id="best_day_date">0</span> with <span id="best_day_messages">0</span> messages</h2>
+        <h3 class="first">You had your peak on</h3>
+        <h2 class="second"><span id="best_day_date">0</span> with <span id="best_day_messages">0</span> messages</h2>
     </div>
     
     <div class="page" id="page-4">
-        <h2>On average you were most active on <span id="most_active_day">0</span></h2>
+        <h2 class="first">On average you were most active on <span id="most_active_day">0</span></h2>
 
         <div class="day-chart">
             <div id="sunday"><span>Sun</span></div>
@@ -60,39 +62,39 @@
             <div id="december"><span>December</span></div>
         </div>
 
-        <h2>The year had its ups and downs</h2>
-        <h3>However <span id="most_active_month">0</span> was definitely your bussiest month</h3>
+        <h2 class="first">The year had its ups and downs</h2>
+        <h3 class="second">However <span id="most_active_month">0</span> was definitely your bussiest month</h3>
     </div>
     
     <div class="page" id="page-6">
-        <h3>You talked through</h3>
+        <h3 class="first">You talked through</h3>
     </div>
 
     <div class="page" id="page-7">
-        <h3>Throughout all that time</h3> 
-        <h2><span id="first_chatter"></span> texted first the most</h2>
-        <h3><span id="second_chatter"></span>, you should close in on that <span id="chatter_gap"></span>% gap</h3>
+        <h3 class="first">Throughout all that time</h3> 
+        <h2 class="second"><span id="first_chatter"></span> texted first the most</h2>
+        <h3 class="third"><span id="second_chatter"></span>, you should close in on that <span id="chatter_gap"></span>% gap</h3>
     </div>
 
     <div class="page" id="page-8">
-        <h3>Y'all talked a lot</h3>
-        <h2>But <span id="most_messages"></span> talked the most</h2>
-        <h3>Sending <span id="most_messages_percentage"></span>% of messages</h3>
+        <h3 class="first">Y'all talked a lot</h3>
+        <h2 class="second">But <span id="most_messages"></span> talked the most</h2>
+        <h3 class="third">Sending <span id="most_messages_percentage"></span>% of messages</h3>
     </div>
 
     <div class="page" id="page-9">
-        <h3>You were confident chatters</h3>
-        <h2>But <span id="most_edits"></span> edited <span id="edit_ratio"></span>% of their messages</h2>
-        <h3>maybe not that confident after all...</h3>
+        <h3 class="first">You were confident chatters</h3>
+        <h2 class="second">But <span id="most_edits"></span> edited <span id="edit_ratio"></span>% of their messages</h2>
+        <h3 class="third">maybe not that confident after all...</h3>
     </div>
 
     <div class="page" id="page-10">
-        <h2><span id="streak-start"></span> you started chatting and didn't miss a beat until <span id="streak-end"></span></h2>
-        <h3>That is <span id="streak"></span>!</h3>
+        <h2 class="first"><span id="streak-start"></span> you started chatting and didn't miss a beat until <span id="streak-end"></span></h2>
+        <h3 class="second">That is <span id="streak"></span>!</h3>
     </div>
 
     <div class="page" id="page-11">
-        <h2>What is it you have so much to talk about?</h2>
+        <h2 class="first">What is it you have so much to talk about?</h2>
     </div>
     
     <div class="page" id="page-12">
@@ -100,8 +102,8 @@
     </div>
 
     <div class="page" id="page-13">
-        <h2>You guys really keep things interesting <span class="emoji">😏</span></h2>
-        <h3>Sending over <span id="total_emojis"></span> emojis</h3>
+        <h2 class="first">You guys really keep things interesting <span class="emoji">😏</span></h2>
+        <h3 class="second">Sending over <span id="total_emojis"></span> emojis</h3>
     </div>
 
     <div class="page" id="page-14">
