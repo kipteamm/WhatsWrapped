@@ -41,8 +41,8 @@
         <div class="button-wrapper">
             <button onclick="start()"><h2 class="visible">Ready?</h2></button>
         </div>
-        <h3 class="share small">Swipe up to share</h3>
-        <h3 class="share big">Press arrow up to share</h3>
+        <h3 class="share-message small">Swipe up to share</h3>
+        <h3 class="share-message big">Press arrow up to share</h3>
     </div>
 
     <div class="page" id="page-1">
@@ -141,6 +141,11 @@
         <div class="button-wrapper">
             <button onclick="generateImage('page-2')"><h2 class="visible">Share</h2></button>
         </div>
+    </div>
+
+    <div class="share" id="share">
+        <div class="emoji" onclick="generateImage(`page-${pageId}`)">🔗</div>
+        <div class="emoji" onclick="start()">▶</div>
     </div>
 </body>
 </html>

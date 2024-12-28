@@ -214,6 +214,7 @@ function nextPage() {
 function start() {
     if (intervalId) return;
     intervalId = setInterval(nextPage, 8000);
+    document.getElementById("share").classList.remove("active");
 }
 
 function stop() {
@@ -222,7 +223,8 @@ function stop() {
     intervalId = null;
 }
 
-window.onclick = () => {
+window.onclick = (event) => {
+    if (event.target.parentNode.id === "share") return;
     if (pageId === 15) return;
     stop();
     nextPage();
@@ -301,6 +303,7 @@ async function generateImage(id) {
                         text: shareText,
                         files: [file]
                     }).catch(err => {
+                        console.error(err);
                         // Fallback to traditional WhatsApp share if file sharing fails
                         window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`);
                     });
@@ -323,10 +326,15 @@ const detectSwipeUp = (element) => {
     element.addEventListener('touchend', e => {
       const touchendY = e.changedTouches[0].clientY;
       const diff = touchstartY - touchendY;
-      if (diff > 50) generateImage(`page-${pageId}`);
+      if (diff > 50) toggleShare(`page-${pageId}`);
     });
 };
 
 document.addEventListener("keydown", (event)=> {
-    if (event.key === "ArrowUp") generateImage(`page-${pageId}`);
+    if (event.key === "ArrowUp") toggleShare(`page-${pageId}`);
 });
+
+function toggleShare() {
+    stop();
+    document.getElementById("share").classList.toggle("active");
+}

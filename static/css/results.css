@@ -78,7 +78,7 @@ body {
     opacity: 1;
 }
 
-.share.small {
+.share-message.small {
     opacity: 1;
 }
 
@@ -374,6 +374,24 @@ h2, h3, h4, h5, h6 {
     left: 0;
 }
 
+.share {
+    position: fixed;
+    bottom: -100%;
+    display: flex;
+    gap: 5px;
+    transition: .2s;
+}
+.share.active {
+    bottom: 15px;
+}
+
+.share div {
+    padding: 15px;
+    font-size: 20px;
+    background-color: rgb(0, 0, 0, .2);
+    border-radius: 100%;
+}
+
 @media (min-width: 768px) {
     .pages {
         width: 80vw;
@@ -384,10 +402,10 @@ h2, h3, h4, h5, h6 {
         height: 90vh;
         border-radius: 15px;
     }
-    .share.small {
+    .share-message.small {
         display: none;
     }
-    .share.big {
+    .share-message.big {
         opacity: 1;
     }
 }
