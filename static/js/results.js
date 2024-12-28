@@ -207,7 +207,7 @@ function nextPage() {
     document.getElementById(`page-${pageId}`).classList.add("active");
     document.getElementById(`page-indicator-${pageId}`).classList.add("active");
 
-    if (pageId === 14) stop();
+    if (pageId === 15) stop();
 }
 
 function start() {
@@ -222,7 +222,7 @@ function stop() {
 }
 
 window.onclick = () => {
-    if (pageId === 14) return;
+    if (pageId === 15) return;
     stop();
     nextPage();
     start();
@@ -232,4 +232,88 @@ function loadPage(newPageId) {
     document.getElementById(`page-${pageId}`).classList.remove("active");
     pageId = newPageId;
     document.getElementById(`page-${pageId}`).classList.add("active");
+}
+
+async function generateImage(id) {
+    try {
+        const fontUrls = [
+            'https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap',
+            'https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap'
+        ];
+        
+        await Promise.all(fontUrls.map(async url => {
+            const response = await fetch(url);
+            const css = await response.text();
+            const style = document.createElement('style');
+            style.textContent = css;
+            document.head.appendChild(style);
+        }));
+    } catch (error) {
+        console.warn('Font inlining failed:', error);
+    }
+
+    const element = document.getElementById(id);
+    
+    const originalStyle = {
+        width: element.style.width,
+        height: element.style.height,
+        aspectRatio: element.style.aspectRatio,
+        position: element.style.position,
+        transform: element.style.transform,
+        borderRadius: element.style.borderRadius
+    };
+
+    const computedStyle = window.getComputedStyle(element);
+    const rect = element.getBoundingClientRect();
+
+    element.style.width = `${rect.width}px`;
+    element.style.height = `${rect.height}px`;
+    element.style.aspectRatio = 'unset';
+    element.style.position = 'relative';
+    element.style.transform = 'none';
+    element.style.borderRadius = computedStyle.borderRadius;
+
+    const options = {
+        quality: 1,
+        width: rect.width,
+        height: rect.height,
+        style: {
+            transform: 'none',
+            'transform-origin': 'center'
+        }
+    };
+
+    return domtoimage.toJpeg(element, options)
+        .then(function(dataUrl) {
+            const shareText = "Check out my WhatsWrapped stats!"; // Customize this message
+            const shareUrl = "https://whatswrapped.net"; // Your website URL
+
+            fetch(dataUrl)
+                            .then(res => res.blob())
+                            .then(blob => {
+                                // Create a File from the blob
+                                const file = new File([blob], 'whatswrapped-stats.jpeg', { type: 'image/jpeg' });
+                                
+                                // Check if Web Share API is supported
+                                if (navigator.share) {
+                                    navigator.share({
+                                        title: 'My WhatsWrapped Stats',
+                                        text: shareText,
+                                        files: [file]
+                                    }).catch(err => {
+                                        // Fallback to traditional WhatsApp share if file sharing fails
+                                        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`);
+                                    });
+                                } else {
+                                    // Fallback for browsers that don't support Web Share API
+                                    window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`);
+                                }
+                            });
+        })
+        .catch(function(error) {
+            console.error("Error capturing element:", error);
+        })
+        .finally(() => {
+            Object.assign(element.style, originalStyle);
+        });
 }

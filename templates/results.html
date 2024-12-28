@@ -15,6 +15,7 @@
     <!-- Load d3.js -->
     <script src="https://d3js.org/d3.v4.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
     <script src="/static/js/results.js"></script>
 </head>
 <body>
@@ -70,6 +71,9 @@
     </div>
     
     <div class="page" id="page-5">
+        <h2 class="first">Your years have its ups and downs</h2>
+        <h3 class="second">However <span id="most_active_month">0</span> definitely is your bussiest month</h3>
+
         <div class="month-chart">
             <div id="january"><span>January</span></div>
             <div id="february"><span>February</span></div>
@@ -84,9 +88,6 @@
             <div id="november"><span>November</span></div>
             <div id="december"><span>December</span></div>
         </div>
-
-        <h2 class="first">The year had its ups and downs</h2>
-        <h3 class="second">However <span id="most_active_month">0</span> was definitely your bussiest month</h3>
     </div>
     
     <div class="page" id="page-6">
@@ -132,6 +133,12 @@
 
     <div class="page" id="page-14">
         <div class="emoji-chart" id="emoji-chart"></div>
+    </div>
+
+    <div class="page" id="page-15">
+        <div class="button-wrapper">
+            <button onclick="generateImage('page-2')"><h2 class="visible">Share</h2></button>
+        </div>
     </div>
 </body>
 </html>

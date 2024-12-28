@@ -14,6 +14,7 @@
   <!-- Load d3.js -->
   <script src="https://d3js.org/d3.v4.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
 </head>
 <body>
   <div id="my_dataviz"></div>
@@ -156,6 +157,14 @@ window.addEventListener('resize', () => {
   drawCloud()
 })
 drawCloud();
+
+    domtoimage.toJpeg(document.getElementById('my_dataviz'), { quality: 0.95 })
+    .then(function (dataUrl) {
+        var link = document.createElement('a');
+        link.download = 'my-image-name.jpeg';
+        link.href = dataUrl;
+        link.click();
+    });
   </script>
 
 </body>

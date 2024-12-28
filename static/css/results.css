@@ -29,7 +29,7 @@ body {
 }
 .page-indicator {
     flex: 1;
-    background-color: gray;
+    background: rgb(0, 0, 0, .2);
     border-radius: 10px;
     position: relative;
 }
@@ -283,29 +283,28 @@ h2, h3, h4, h5, h6 {
     display: flex;
     width: calc(100% + 30px);
     height: 100%;
+    align-items: end;
+    margin: 0px -15px -15px -15px;
 }
 
-.day-chart {
-    margin: 0px -15px -15px -15px;
-    align-items: end;
-}
 .month-chart {
-    margin: -15px -15px 0px -15px;
+    gap: 5px;
 }
 
 .month-chart div,
 .day-chart div {
     flex: 1;
-    background-color: #f6d68d;
     display: flex;
     justify-content: center;
+    border-radius: 5px 5px 0px 0px;
+    background-color: #f6d68d;
 }
 
-.day-chart div {
-    border-radius: 5px 5px 0px 0px;
-}
 .month-chart div {
-    border-radius: 0px 0px 5px 5px;
+    background-color: #e64074;
+}
+.day-chart div {
+    border: 2px solid #fdbd2c;
 }
 
 .day-chart div:first-child {
@@ -317,9 +316,11 @@ h2, h3, h4, h5, h6 {
 
 .month-chart div:first-child {
     border-radius: 0px 0px 5px 0px;
+    border-radius: 0px 5px 0px 0px;
 }
 .month-chart div:last-child {
     border-radius: 0px 0px 0px 5px;
+    border-radius: 5px 0px 0px 0px;
 }
 
 .day-chart div span {
@@ -328,10 +329,10 @@ h2, h3, h4, h5, h6 {
 }
 
 .month-chart div span {
-    margin-bottom: auto;
-    margin-top: 15px;
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
+    margin-top: auto;
+    margin-bottom: 15px;
+    writing-mode: tb-rl;
+    transform: rotate(-180deg);
 }
 
 .emoji-chart {
