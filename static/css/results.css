@@ -16,8 +16,14 @@ body {
     text-align: center;
 }
 
+.emoji {
+    font-family: "Noto Color Emoji", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
 .page {
-    background-color: rgb(255, 114, 114);
+    background-color: #8f30a1;
     height: 100vh;
     width: 100vw;
     display: none;
@@ -25,10 +31,14 @@ body {
     align-items: center;
     flex-direction: column;
     padding: 15px;
+    overflow: hidden;
 }
-
 .page.active {
     display: flex;
+}
+
+.page#page-4 {
+    background: #46b3a5;
 }
 
 canvas {
@@ -70,6 +80,91 @@ h5 {
 
 h6 {
     font-size: 2vh;
+}
+
+.month-chart,
+.day-chart {
+    display: flex;
+    width: calc(100% + 30px);
+    height: 100%;
+}
+
+.day-chart {
+    margin: 0px -15px -15px -15px;
+    align-items: end;
+}
+.month-chart {
+    margin: -15px -15px 0px -15px;
+}
+
+.month-chart div,
+.day-chart div {
+    flex: 1;
+    background-color: #f6d68d;
+    display: flex;
+    justify-content: center;
+}
+
+.day-chart div {
+    border-radius: 5px 5px 0px 0px;
+}
+.month-chart div {
+    border-radius: 0px 0px 5px 5px;
+}
+
+.day-chart div:first-child {
+    border-radius: 0px 5px 0px 0px;
+}
+.day-chart div:last-child {
+    border-radius: 5px 0px 0px 0px;
+}
+
+.month-chart div:first-child {
+    border-radius: 0px 0px 5px 0px;
+}
+.month-chart div:last-child {
+    border-radius: 0px 0px 0px 5px;
+}
+
+.day-chart div span {
+    margin-top: auto;
+    margin-bottom: 15px;
+}
+
+.month-chart div span {
+    margin-bottom: auto;
+    margin-top: 15px;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+}
+
+.emoji-chart {
+    width: calc(80% + 30px);
+    height: calc(100% + 30px);
+    display: flex;
+    flex-direction: column;
+    margin: -15px -15px -15px calc(-15px - 20%);
+}
+
+.emoji-chart div {
+    flex: 1;
+    background-color: #f6d68d;
+    position: relative;
+    text-align: right;
+    border-radius: 0px 5px 5px 0px;
+}
+.emoji-chart div:first-child  {
+    border-radius: 0px 0px 5px 0px;
+}
+.emoji-chart div:last-child  {
+    border-radius: 0px 5px 0px 0px;
+}
+
+.emoji-chart div span {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0px 10px;
 }
 
 @media (min-width: 768px) {

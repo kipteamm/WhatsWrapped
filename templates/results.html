@@ -9,11 +9,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap" rel="stylesheet">
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="/static/js/results.js"></script>
-
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/results.css">
+
+    <script src="/static/js/results.js"></script>
 </head>
 <body>
     <div class="page active" id="page-0">
@@ -34,14 +33,35 @@
     <div class="page" id="page-4">
         <h2>On average you were most active on <span id="most_active_day">0</span></h2>
 
-        <canvas id="day-chart"></canvas>
+        <div class="day-chart">
+            <div id="sunday"><span>Sun</span></div>
+            <div id="monday"><span>Mon</span></div>
+            <div id="tuesday"><span>Tue</span></div>
+            <div id="wednesday"><span>Wed</span></div>
+            <div id="thursday"><span>Thu</span></div>
+            <div id="friday"><span>Fri</span></div>
+            <div id="saturday"><span>Sat</span></div>
+        </div>
     </div>
     
     <div class="page" id="page-5">
+        <div class="month-chart">
+            <div id="january"><span>January</span></div>
+            <div id="february"><span>February</span></div>
+            <div id="march"><span>March</span></div>
+            <div id="april"><span>April</span></div>
+            <div id="may"><span>May</span></div>
+            <div id="june"><span>June</span></div>
+            <div id="july"><span>July</span></div>
+            <div id="august"><span>August</span></div>
+            <div id="september"><span>September</span></div>
+            <div id="october"><span>October</span></div>
+            <div id="november"><span>November</span></div>
+            <div id="december"><span>December</span></div>
+        </div>
+
         <h2>The year had its ups and downs</h2>
         <h3>However <span id="most_active_month">0</span> was definitely your bussiest month</h3>
-
-        <canvas id="month-chart"></canvas>
     </div>
     
     <div class="page" id="page-6">
@@ -80,12 +100,12 @@
     </div>
 
     <div class="page" id="page-13">
-        <h2>You guys really keep things interesting😏</h2>
+        <h2>You guys really keep things interesting <span class="emoji">😏</span></h2>
         <h3>Sending over <span id="total_emojis"></span> emojis</h3>
     </div>
 
     <div class="page" id="page-14">
-        <canvas id="emoji-chart"></canvas>
+        <div class="emoji-chart" id="emoji-chart"></div>
     </div>
 </body>
 </html>

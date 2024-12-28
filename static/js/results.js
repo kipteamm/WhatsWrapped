@@ -75,100 +75,19 @@ function dataInit() {
 }
 
 function dayChart() {
-    const ctx = document.getElementById('day-chart');
-    const daysData = Object.fromEntries(data.days);
+    const maxValue = data.days[0][1];
 
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: Object.keys(daysData).map(day => days[Number(day)].substring(0, 3)),
-            datasets: [{
-                label: "Messages per day",
-                data: Object.values(daysData),
-                borderWidth: 1
-            }]
-        },
-        options: {
-            indexAxis: 'y',
-            aspectRatio: 1,
-            responsive: true,
-            plugins: {
-                legend: {
-                    display: false,
-                },
-            },
-            scales: {
-                x: {
-                    display: false,
-                    beginAtZero: true,
-                    grid: {
-                        display: false
-                    },
-                    border: {
-                        display: false
-                    }
-                },
-                y: {
-                    grid: {
-                        display: false
-                    },
-                    border: {
-                        display: false
-                    }
-                }
-            }
-        }
+    data.days.forEach(day => {
+        document.getElementById(days[day[0]].toLowerCase()).style.height = `${Math.round((day[1] / maxValue) * 100)}%`;
     });
 }
 
 function monthChart() {
-    const ctx = document.getElementById('month-chart');
-    const monthData = Object.fromEntries(data.months);
+    const maxValue = data.months[0][1];
 
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: Object.keys(monthData).map(day => months[Number(day)].substring(0, 3)),
-            datasets: [{
-                label: "Messages per month",
-                data: Object.values(monthData),
-                borderWidth: 3,
-                lineTension: 0.5,
-                fill: true,
-                pointRadius: 0,
-                pointHoverRadius: 0,
-            }]
-        },
-        options: {
-            aspectRatio: 1,
-            responsive: true,
-            plugins: {
-                legend: {
-                    display: false,
-                },
-            },
-            scales: {
-                x: {
-                    beginAtZero: true,
-                    grid: {
-                        display: false
-                    },
-                    border: {
-                        display: false
-                    }
-                },
-                y: {
-                    display: false,
-                    grid: {
-                        display: false
-                    },
-                    border: {
-                        display: false
-                    }
-                }
-            }
-        }
-    });
+    data.months.forEach(month => {
+        document.getElementById(months[month[0]].toLowerCase()).style.height = `${Math.round((month[1] / maxValue) * 100)}%`;
+    })
 }
 
 function wordsChart() {
@@ -233,51 +152,14 @@ function wordsChart() {
 }
 
 function emojiChart() {
-    const ctx = document.getElementById('emoji-chart');
-    data.top_10_emojis.shift();
-    const emojiData = Object.fromEntries(data.top_10_emojis);
+    const chart = document.getElementById("emoji-chart");
+    const maxValue = data.top_10_emojis[1][1];
 
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: Object.keys(emojiData),
-            datasets: [{
-                label: "Times sent",
-                data: Object.values(emojiData),
-                borderWidth: 1
-            }]
-        },
-        options: {
-            indexAxis: 'y',
-            aspectRatio: 1,
-            responsive: true,
-            plugins: {
-                legend: {
-                    display: false,
-                },
-            },
-            scales: {
-                x: {
-                    display: false,
-                    beginAtZero: true,
-                    grid: {
-                        display: false
-                    },
-                    border: {
-                        display: false
-                    }
-                },
-                y: {
-                    grid: {
-                        display: false
-                    },
-                    border: {
-                        display: false
-                    }
-                }
-            }
+    data.top_10_emojis.forEach(emoji => {
+        if (emoji[0] !== "total") {
+            chart.innerHTML += `<div style="width:${Math.round((emoji[1] / maxValue) * 100) + 5}%;"><span class="emoji">${emoji[0]}</span></div>`
         }
-    });
+    })
 }
 
 function daysInYear(year) {
