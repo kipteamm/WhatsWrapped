@@ -92,74 +92,13 @@ function monthChart() {
     })
 }
 
-const colours = ["#580c82", "#8f30a1", "#f6d68d", "#46b3a5"];
-function wordsChartOld() {
-    const canvas = document.getElementById("words-chart");
-
-    const ctx = canvas.getContext("2d");
-    const rect = canvas.getBoundingClientRect();
-    canvas.width = rect.width;
-    canvas.height = rect.height;
-
-    const width = canvas.width;
-    const height = canvas.height;
-
-    ctx.clearRect(0, 0, width, height);
-    ctx.textBaseline = "middle";
-    ctx.textAlign = "center";
-
-    const positions = [];
-
-    function placeWord(word, size) {
-        ctx.font = `bold ${size}px Arial`;
-        ctx.fillStyle = colours[Math.floor(Math.random() * colours.length)];
-        const metrics = ctx.measureText(word);
-        const w = metrics.width;
-        const h = size * 0.8; // Approximate height (depends on the font)
-
-        const step = 20;
-        let angle = 0;
-        let radius = 0;
-
-        while (true) {
-            const x = width / 2 + radius * Math.cos(angle) - w / 2;
-            const y = height / 2 + radius * Math.sin(angle) - h / 2;
-
-            const overlap = positions.some(pos => {
-                return (
-                    x < pos.x + pos.w &&
-                    x + w > pos.x &&
-                    y < pos.y + pos.h &&
-                    y + h > pos.y
-                );
-            });
-
-            if (!overlap) {
-                ctx.fillText(word, x + w / 2, y + h / 2); 
-                positions.push({ x, y, w, h });
-                break;
-            }
-
-            angle += step * (Math.PI / 180);
-            if (angle >= 2 * Math.PI) {
-                angle = 0;
-                radius += step;
-            }
-        }
-    }
-
-    data.top_50_words.forEach(word => {
-        const size = Math.sqrt(word[1]) / 1.5;
-        placeWord(word[0], size);
-    });
-}
-
 /* The word cloud generating algorithm is the one made by judy-n and JLambertazzo
 for their own whatsapp wrapping service. All credits go to them:
 https://github.com/judy-n/WhatsAppWrapped/blob/main/static/js/wrap.js
 */
+const colours = ["#580c82", "#8f30a1", "#f6d68d", "#46b3a5"];
 const max = data.top_50_words[0][1].toString();
-const min = data.top_50_words[49][1].toString();
+const min = data.top_50_words[data.top_50_words.length - 1][1].toString();
 const r = (a, b, t=768) => window.innerWidth > t ? a : b;
 let lastCloudWidth;
 let lastWidth;
@@ -238,6 +177,8 @@ window.addEventListener('resize', () => {
 })
 
 function emojiChart() {
+    if (data.top_10_emojis[0][1] === 0) return;
+
     const chart = document.getElementById("emoji-chart");
     const maxValue = data.top_10_emojis[1][1];
 
@@ -261,7 +202,6 @@ function nextPage() {
     document.getElementById(`page-${pageId}`).classList.add("active");
     document.getElementById(`page-indicator-${pageId}`).classList.add("active");
 
-    if (pageId === 12) wordsChart();
     if (pageId === 14) stop();
 }
 
