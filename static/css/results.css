@@ -15,6 +15,7 @@ body {
     height: 100vh;
     text-align: center;
     background: black;
+    user-select: none;
 }
 
 .pages {
@@ -142,22 +143,22 @@ body {
     background: #2e6d92;
 }
 .page#page-6 {
-    background: #580c82;
+    background: #fe4773;
 }
 .page#page-7 {
     background: #8f30a1;
 }
 .page#page-8 {
-    background: #fe4773;
+    background: #46b3a5;
 }
 .page#page-9 {
     background: #f6d68d;
 }
 .page#page-10 {
-    background: #46b3a5;
+    background: #fe4773;
 }
 .page#page-11 {
-    background: #580c82;
+    background: #46b3a5;
 }
 .page#page-12 {
     background: #2e6d92;
@@ -166,7 +167,7 @@ body {
     background: #8f30a1;
 }
 .page#page-14 {
-    background: #46b3a5;
+    background: #580c82;
 }
 
 .button-wrapper {
@@ -343,7 +344,7 @@ h2, h3, h4, h5, h6 {
 
 .emoji-chart div {
     flex: 1;
-    background-color: #f6d68d;
+    background-color: #8f30a1;
     position: relative;
     text-align: right;
     border-radius: 0px 5px 5px 0px;

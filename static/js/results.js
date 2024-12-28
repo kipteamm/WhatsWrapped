@@ -26,7 +26,6 @@ if (document.readyState !== 'loading') {
     });
 }
 
-const dateFormat = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const textAnimations = ["first", "second", "third", "fourth", "fifth", "sixth"]
@@ -38,7 +37,7 @@ function dataInit() {
         document.getElementById("participants").innerHTML += `<h2 class="first">${participant[0]}<div class="layer-0"></div><div class="layer layer-1"></div><div class="layer layer-2"></div><div class="layer layer-3"></div></h2>`;
     });
     document.getElementById("total").innerHTML = data.total;
-    document.getElementById("best_day_date").innerHTML = new Date(data.best_day.date).toLocaleDateString("en-UK", dateFormat);
+    document.getElementById("best_day_date").innerHTML = formatDate(data.best_day.date);
     document.getElementById("best_day_messages").innerHTML = data.best_day.messages;
     document.getElementById("most_active_day").innerHTML = days[data.days[0][0]] + "s";
     dayChart();
@@ -68,12 +67,18 @@ function dataInit() {
     document.getElementById("most_messages_percentage").innerHTML = ((data.messages_per_participant[0][1] / data.total) * 100).toFixed(3);
     document.getElementById("most_edits").innerHTML = data.messages_edit_per_participant[0][0];
     document.getElementById("edit_ratio").innerHTML = ((data.messages_edit_per_participant[0][1] / ((data.messages_per_participant[0][0] === data.messages_edit_per_participant[0][0])? data.messages_per_participant[0][1]: data.messages_per_participant[1][1])) * 100).toFixed(3);
-    document.getElementById("streak-start").innerHTML = new Date(data.streak.startDate).toLocaleDateString("en-UK", dateFormat);
-    document.getElementById("streak-end").innerHTML = new Date(data.streak.endDate).toLocaleDateString("en-UK", dateFormat);
+    document.getElementById("streak-start").innerHTML = formatDate(data.streak.startDate);
+    document.getElementById("streak-end").innerHTML = formatDate(data.streak.endDate);
     document.getElementById("streak").innerHTML = `${data.streak.streak} day${data.streak.streak === 1? "" : "s"}`;
     document.getElementById("total_emojis").innerHTML = data.top_10_emojis[0][1];
     drawCloud();
     emojiChart();
+}
+
+function formatDate(dateString) {
+    const dateObj = new Date(dateString);
+    const date = dateObj.getDate().toString();
+    return `${months[dateObj.getMonth()]} ${date}${date[date.length - 1] === "1"? "st": date[date.length - 1] === "2"? "nd": data[date.length - 1] === "3"? "rd": "th"}, ${dateObj.getFullYear()}`
 }
 
 function dayChart() {
@@ -217,6 +222,7 @@ function stop() {
 }
 
 window.onclick = () => {
+    if (pageId === 14) return;
     stop();
     nextPage();
     start();
