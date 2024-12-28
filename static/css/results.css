@@ -78,6 +78,10 @@ body {
     opacity: 1;
 }
 
+.share.small {
+    opacity: 1;
+}
+
 .page#page-1 {
     background: #8f30a1;
 }
@@ -379,5 +383,11 @@ h2, h3, h4, h5, h6 {
         width: unset;
         height: 90vh;
         border-radius: 15px;
+    }
+    .share.small {
+        display: none;
+    }
+    .share.big {
+        opacity: 1;
     }
 }

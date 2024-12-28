@@ -33,6 +33,7 @@ const today = new Date();
 
 function dataInit() {
     console.log(data);
+    detectSwipeUp(document.body);
     data.messages_per_participant.forEach(participant => {
         document.getElementById("participants").innerHTML += `<h2 class="first">${participant[0]}<div class="layer-0"></div><div class="layer layer-1"></div><div class="layer layer-2"></div><div class="layer layer-3"></div></h2>`;
     });
@@ -253,7 +254,6 @@ async function generateImage(id) {
     }
 
     const element = document.getElementById(id);
-    
     const originalStyle = {
         width: element.style.width,
         height: element.style.height,
@@ -289,26 +289,23 @@ async function generateImage(id) {
             const shareUrl = "https://whatswrapped.net"; // Your website URL
 
             fetch(dataUrl)
-                            .then(res => res.blob())
-                            .then(blob => {
-                                // Create a File from the blob
-                                const file = new File([blob], 'whatswrapped-stats.jpeg', { type: 'image/jpeg' });
-                                
-                                // Check if Web Share API is supported
-                                if (navigator.share) {
-                                    navigator.share({
-                                        title: 'My WhatsWrapped Stats',
-                                        text: shareText,
-                                        files: [file]
-                                    }).catch(err => {
-                                        // Fallback to traditional WhatsApp share if file sharing fails
-                                        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`);
-                                    });
-                                } else {
-                                    // Fallback for browsers that don't support Web Share API
-                                    window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`);
-                                }
-                            });
+            .then(res => res.blob())
+            .then(blob => {
+                // Create a File from the blob
+                const file = new File([blob], 'whatswrapped-stats.jpeg', { type: 'image/jpeg' });
+                                    
+                // Check if Web Share API is supported
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'My WhatsWrapped Stats',
+                        text: shareText,
+                        files: [file]
+                    }).catch(err => {
+                        // Fallback to traditional WhatsApp share if file sharing fails
+                        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`);
+                    });
+                }
+            });
         })
         .catch(function(error) {
             console.error("Error capturing element:", error);
@@ -317,3 +314,19 @@ async function generateImage(id) {
             Object.assign(element.style, originalStyle);
         });
 }
+
+const detectSwipeUp = (element) => {
+    let touchstartY = 0;
+    
+    element.addEventListener('touchstart', e => touchstartY = e.touches[0].clientY);
+    
+    element.addEventListener('touchend', e => {
+      const touchendY = e.changedTouches[0].clientY;
+      const diff = touchstartY - touchendY;
+      if (diff > 50) generateImage(`page-${pageId}`);
+    });
+};
+
+document.addEventListener("keydown", (event)=> {
+    if (event.key === "ArrowUp") generateImage(`page-${pageId}`);
+});
