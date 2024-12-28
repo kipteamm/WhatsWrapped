@@ -72,6 +72,7 @@ function dataInit() {
     document.getElementById("streak-end").innerHTML = new Date(data.streak.endDate).toLocaleDateString("en-UK", dateFormat);
     document.getElementById("streak").innerHTML = `${data.streak.streak} day${data.streak.streak === 1? "" : "s"}`;
     document.getElementById("total_emojis").innerHTML = data.top_10_emojis[0][1];
+    drawCloud();
     emojiChart();
 }
 
@@ -91,7 +92,8 @@ function monthChart() {
     })
 }
 
-function wordsChart() {
+const colours = ["#580c82", "#8f30a1", "#f6d68d", "#46b3a5"];
+function wordsChartOld() {
     const canvas = document.getElementById("words-chart");
 
     const ctx = canvas.getContext("2d");
@@ -109,8 +111,8 @@ function wordsChart() {
     const positions = [];
 
     function placeWord(word, size) {
-        ctx.font = `${size}px Arial`;
-        ctx.fillStyle = '#'+Math.floor(Math.random()*16777215).toString(16);
+        ctx.font = `bold ${size}px Arial`;
+        ctx.fillStyle = colours[Math.floor(Math.random() * colours.length)];
         const metrics = ctx.measureText(word);
         const w = metrics.width;
         const h = size * 0.8; // Approximate height (depends on the font)
@@ -152,6 +154,89 @@ function wordsChart() {
     });
 }
 
+/* The word cloud generating algorithm is the one made by judy-n and JLambertazzo
+for their own whatsapp wrapping service. All credits go to them:
+https://github.com/judy-n/WhatsAppWrapped/blob/main/static/js/wrap.js
+*/
+const max = data.top_50_words[0][1].toString();
+const min = data.top_50_words[49][1].toString();
+const r = (a, b, t=768) => window.innerWidth > t ? a : b;
+let lastCloudWidth;
+let lastWidth;
+
+function prepareWords() {
+    if (!data.top_50_words) return [];
+    let words = [];
+    
+    data.top_50_words.forEach(word => {
+        words.push({word: word[0], size: word[1].toString()});
+    })
+    return normalizeCloud(words);
+}
+
+function normalizeCloud(words) {
+    const cloudMax = r(150,95);
+    const cloudMin = r(25,10);
+    return words.map(el => {
+        const zeroToOne = (el.size - min) / (max - min)
+        const normalized = (zeroToOne*(cloudMax - cloudMin)) + cloudMin
+        return {...el, size: normalized}
+    });
+}
+
+function drawCloud() {
+    const cloudParent = document.getElementById("page-12");
+    let words = prepareWords();
+    width = cloudParent.clientWidth;
+    height = cloudParent.clientHeight;
+    
+    if (width === lastCloudWidth) return; // don't redraw
+    lastCloudWidth = width;
+    
+    console.log(words);
+    document.getElementById("word-cloud").innerHTML = "";
+
+    let svg = d3.select("#word-cloud").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .append("g")
+
+    let layout = d3.layout.cloud()
+    .size([width, height])
+    .words(words.map(function(d) { return {text: d.word, size:d.size}; }))
+    .padding(r(5,1))
+    .rotate(function() { return ~~(Math.random()) * 90; })
+    .fontSize(function(d) { return d.size; })
+    .on("end", draw);
+    layout.start();
+
+    function draw(words) {
+        svg
+        .append("g")
+        .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
+        .selectAll("text")
+        .data(words)
+        .enter().append("text")
+        .style("font-size", function(d) { return d.size; })
+        .style("fill", function(d) {
+            if (d.x < -1 * (width*0.37)) return "#c6c6c6";
+            return colours[Math.floor(Math.random() * colours.length)];
+        })
+        .attr("text-anchor", "middle")
+        .style("font-family", "Helvetica")
+        .attr("transform", function(d) {
+            return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+        })
+        .text(function(d) {
+            return d.text; 
+        });
+    }
+}
+
+window.addEventListener('resize', () => {
+    drawCloud()
+})
+
 function emojiChart() {
     const chart = document.getElementById("emoji-chart");
     const maxValue = data.top_10_emojis[1][1];
@@ -171,8 +256,10 @@ let pageId = 0;
 let intervalId = null;
 function nextPage() {
     document.getElementById(`page-${pageId}`).classList.remove("active");
+    document.getElementById(`page-indicator-${pageId}`).classList.add("finished");
     pageId++;
     document.getElementById(`page-${pageId}`).classList.add("active");
+    document.getElementById(`page-indicator-${pageId}`).classList.add("active");
 
     if (pageId === 12) wordsChart();
     if (pageId === 14) stop();
@@ -190,7 +277,9 @@ function stop() {
 }
 
 window.onclick = () => {
+    stop();
     nextPage();
+    start();
 }
 
 function loadPage(newPageId) {
