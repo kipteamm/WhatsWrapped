@@ -35,9 +35,64 @@ body {
     overflow: hidden;
     display: flex;
     position: absolute;
+    transition: .1s;
+    opacity: 0;
 }
 .page.active {
     visibility: visible;
+    opacity: 1;
+}
+
+.page#page-1 {
+    background: #8f30a1;
+}
+.page#page-1 h2 {
+    position: relative;
+    padding: 5px 25px;
+    margin: 50px 0px 50px -30px;
+}
+
+.participant-layers div.layer-0 {
+    background: #fe4773;
+    z-index: -1;
+}
+.participant-layers div.layer,
+.participant-layers div.layer-0 {
+    border: 3px solid black;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+
+.active .layer-1 {
+    animation: showLayer1 0.5s forwards 0.5s;
+    background: #f6d68d;
+    z-index: -2;
+}
+.active .layer-2 {
+    animation: showLayer2 0.5s forwards 1s;
+    background: #46b3a5;
+    z-index: -3;
+}
+.active .layer-3 {
+    animation: showLayer3 0.5s forwards 1.5s;
+    background: #2e6d92;
+    z-index: -4;
+}
+
+@keyframes showLayer1 {
+    0% {top: 0px;left: 0px;}
+    100% {top: 10px;left: 10px;}
+}
+@keyframes showLayer2 {
+    0% {top: 10px;left: 10px;}
+    100% {top: 20px;left: 20px;}
+}
+@keyframes showLayer3 {
+    0% {top: 20px;left: 20px;}
+    100% {top: 30px;left: 30px;}
 }
 
 .page#page-4 {
@@ -55,7 +110,7 @@ button {
     padding: 5px 50px;
     cursor: pointer;
     position: relative;
-    transition: .2s ease-in;
+    transition: .2s;
 }
 button::before {
     content: "";
@@ -67,7 +122,7 @@ button::before {
     width: 100%;
     height: 100%;
     border-radius: 15px;
-    transition: .2s ease-in;
+    transition: .2s;
 }
 button:hover {
     margin: -5px 0px 0px -5px;
@@ -122,6 +177,10 @@ h2, h3, h4, h5, h6 {
     margin: 10px 0;
     opacity: 0;
     transition: none;
+}
+
+.visible {
+    opacity: 1;
 }
 
 .active .first {

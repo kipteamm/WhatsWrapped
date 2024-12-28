@@ -17,11 +17,13 @@
 <body>
     <div class="page active" id="page-0">
         <div class="button-wrapper">
-            <button onclick="nextPage()"><h2 class="first">Ready?</h2></button>
+            <button onclick="start()"><h2 class="visible">Ready?</h2></button>
         </div>
     </div>
 
-    <div class="page" id="page-1"></div>
+    <div class="page" id="page-1">
+        <div class="button-wrapper participant-layers" id="participants"></div>
+    </div>
     
     <div class="page" id="page-2">
         <h2 class="first">You have sent <span id="total">0</span> messages</h2>

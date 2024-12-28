@@ -35,7 +35,7 @@ const today = new Date();
 function dataInit() {
     console.log(data);
     data.messages_per_participant.forEach(participant => {
-        document.getElementById("page-1").innerHTML += `<h2 class="first">${participant[0]}</h2>`;
+        document.getElementById("participants").innerHTML += `<h2 class="first">${participant[0]}<div class="layer-0"></div><div class="layer layer-1"></div><div class="layer layer-2"></div><div class="layer layer-3"></div></h2>`;
     });
     document.getElementById("total").innerHTML = data.total;
     document.getElementById("best_day_date").innerHTML = new Date(data.best_day.date).toLocaleDateString("en-UK", dateFormat);
@@ -168,15 +168,29 @@ function daysInYear(year) {
 }
 
 let pageId = 0;
-
+let intervalId = null;
 function nextPage() {
     document.getElementById(`page-${pageId}`).classList.remove("active");
     pageId++;
     document.getElementById(`page-${pageId}`).classList.add("active");
 
-    if (pageId === 12) {
-        wordsChart();
-    }
+    if (pageId === 12) wordsChart();
+    if (pageId === 14) stop();
+}
+
+function start() {
+    if (intervalId) return;
+    intervalId = setInterval(nextPage, 8000);
+}
+
+function stop() {
+    if (!intervalId) return;
+    clearInterval(intervalId);
+    intervalId = null;
+}
+
+window.onclick = () => {
+    nextPage();
 }
 
 function loadPage(newPageId) {
