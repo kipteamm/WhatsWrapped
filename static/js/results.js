@@ -208,6 +208,7 @@ function nextPage() {
     document.getElementById(`page-${pageId}`).classList.add("active");
     document.getElementById(`page-indicator-${pageId}`).classList.add("active");
 
+    if (!intervalId) return start();
     if (pageId === 15) stop();
 }
 
@@ -237,7 +238,12 @@ function loadPage(newPageId) {
     document.getElementById(`page-${pageId}`).classList.add("active");
 }
 
+let isGenerating = false;
+
 async function generateImage(id) {
+    if (isGenerating) return;
+    isGenerating = true;
+
     try {
         const fontUrls = [
             'https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap',
@@ -253,6 +259,7 @@ async function generateImage(id) {
         }));
     } catch (error) {
         console.warn('Font inlining failed:', error);
+        isGenerating = false;
     }
 
     const element = document.getElementById(id);
@@ -304,17 +311,18 @@ async function generateImage(id) {
                         files: [file]
                     }).catch(err => {
                         console.error(err);
-                        // Fallback to traditional WhatsApp share if file sharing fails
-                        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`);
+                        isGenerating = false;
                     });
                 }
             });
         })
         .catch(function(error) {
             console.error("Error capturing element:", error);
+            isGenerating = false;
         })
         .finally(() => {
             Object.assign(element.style, originalStyle);
+            isGenerating = false;
         });
 }
 
