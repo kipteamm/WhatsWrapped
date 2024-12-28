@@ -1,9 +1,19 @@
+:root {
+    --font-family: "Afacad Flux";
+}
+
+* {
+    box-sizing: border-box;
+}
+
 body {
+    font-family: var(--font-family);
     margin: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100vh;
+    text-align: center;
 }
 
 .page {
@@ -14,6 +24,7 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    padding: 15px;
 }
 
 .page.active {
@@ -25,6 +36,40 @@ canvas {
     height: 100%;
     width: 100%;
     max-width: 360px;
+}
+
+button {
+    font-family: var(--font-family);
+}
+
+h2, h3, h4, h5, h6 {
+    margin: 10px 0;
+}
+
+span {
+    font-weight: 800;
+}
+
+h2 {
+    font-size: 6vh;
+    font-weight: 800;
+}
+
+h3 {
+    font-size: 4vh;
+    font-weight: 700;
+}
+
+h4 {
+    font-size: 3vh;
+}
+
+h5 {
+    font-size: 2.5vh;
+}
+
+h6 {
+    font-size: 2vh;
 }
 
 @media (min-width: 768px) {

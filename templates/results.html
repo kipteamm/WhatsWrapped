@@ -6,6 +6,10 @@
 
     <title>Whatsapp Wrapped</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap" rel="stylesheet">
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/static/js/results.js"></script>
 
@@ -16,17 +20,15 @@
         <button onclick="nextPage()">Ready?</button>
     </div>
 
-    <div class="page" id="page-1">
-        <h2 id="person-0"></h2>
-        <h2 id="person-1"></h2>
-    </div>
+    <div class="page" id="page-1"></div>
     
     <div class="page" id="page-2">
-        <h2>The two of you have sent <span id="total">0</span> messages</h2>
+        <h2>You have sent <span id="total">0</span> messages</h2>
     </div>
 
     <div class="page" id="page-3">
-        <h2>You had your peak on <span id="best_day_date">0</span> with over <span id="best_day_messages">0</span> messages</h2>
+        <h3>You had your peak on</h3>
+        <h2><span id="best_day_date">0</span> with <span id="best_day_messages">0</span> messages</h2>
     </div>
     
     <div class="page" id="page-4">
@@ -36,36 +38,41 @@
     </div>
     
     <div class="page" id="page-5">
-        <h2>You wave through your years</h2>
-        <h3>However <span id="most_active_month">0</span> is your bussiest month</h3>
+        <h2>The year had its ups and downs</h2>
+        <h3>However <span id="most_active_month">0</span> was definitely your bussiest month</h3>
 
         <canvas id="month-chart"></canvas>
     </div>
     
-    <div class="page" id="page-6"></div>
+    <div class="page" id="page-6">
+        <h3>You talked through</h3>
+    </div>
 
     <div class="page" id="page-7">
-        <h2>Throughout all that time, it was <span id="first_chatter"></span> who texted first the most</h2>
+        <h3>Throughout all that time</h3> 
+        <h2><span id="first_chatter"></span> texted first the most</h2>
         <h3><span id="second_chatter"></span>, you should close in on that <span id="chatter_gap"></span>% gap</h3>
     </div>
 
     <div class="page" id="page-8">
-        <h2>But who sent the most messages?</h2>
-        <h3>Both of you talk a lot but <span id="most_messages"></span> attirubuted to <span id="most_messages_percentage"></span>% of messages</h3>
+        <h3>Y'all talked a lot</h3>
+        <h2>But <span id="most_messages"></span> talked the most</h2>
+        <h3>Sending <span id="most_messages_percentage"></span>% of messages</h3>
     </div>
 
     <div class="page" id="page-9">
-        <h2>You were both confident chatters</h2>
-        <h3>But <span id="most_edits"></span> edited <span id="edit_ratio"></span>% of their messages — third time's a charm!</h3>
+        <h3>You were confident chatters</h3>
+        <h2>But <span id="most_edits"></span> edited <span id="edit_ratio"></span>% of their messages</h2>
+        <h3>maybe not that confident after all...</h3>
     </div>
 
     <div class="page" id="page-10">
-        <h2>On <span id="streak-start"></span> you started chatting and didn't miss a beat until <span id="streak-end"></span></h2>
+        <h2><span id="streak-start"></span> you started chatting and didn't miss a beat until <span id="streak-end"></span></h2>
         <h3>That is <span id="streak"></span>!</h3>
     </div>
 
     <div class="page" id="page-11">
-        <h2>What is it you two have so much to talk about?</h2>
+        <h2>What is it you have so much to talk about?</h2>
     </div>
     
     <div class="page" id="page-12">
@@ -73,14 +80,12 @@
     </div>
 
     <div class="page" id="page-13">
-        <h2>The two of you really keep things interesting😏</h2>
+        <h2>You guys really keep things interesting😏</h2>
         <h3>Sending over <span id="total_emojis"></span> emojis</h3>
     </div>
 
     <div class="page" id="page-14">
         <canvas id="emoji-chart"></canvas>
     </div>
-
-    <button onclick="nextPage()">[Debug]</button>
 </body>
 </html>

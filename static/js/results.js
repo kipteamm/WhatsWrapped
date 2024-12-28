@@ -33,8 +33,9 @@ const today = new Date();
 
 function dataInit() {
     console.log(data);
-    document.getElementById("person-0").innerHTML = data.messages_per_participant[0][0];
-    document.getElementById("person-1").innerHTML = data.messages_per_participant[1][0];
+    data.messages_per_participant.forEach(participant => {
+        document.getElementById("page-1").innerHTML += `<h2>${participant[0]}</h2>`;
+    });
     document.getElementById("total").innerHTML = data.total;
     document.getElementById("best_day_date").innerHTML = new Date(data.best_day.date).toLocaleDateString("en-UK", dateFormat);
     document.getElementById("best_day_messages").innerHTML = data.best_day.messages;
@@ -51,7 +52,7 @@ function dataInit() {
             continue;
         }
 
-        const message = count === 0 ? "You talked through" : "And";
+        const message = count === 0 ? "" : "And";
         const percentage = (data.days_per_year[year] / daysInYear(year) * 100).toFixed(3);
 
         document.getElementById("page-6").innerHTML += `<h${count + 2}>${message} ${percentage}% of ${year}</h${count + 2}>`;
@@ -80,7 +81,7 @@ function dayChart() {
     new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: Object.keys(daysData).map(day => days[Number(day)]),
+            labels: Object.keys(daysData).map(day => days[Number(day)].substring(0, 3)),
             datasets: [{
                 label: "Messages per day",
                 data: Object.values(daysData),
