@@ -91,6 +91,8 @@ function parseFile(content) {
 
     // Process the last message
     if (currentMessage) processMessage(currentMessage);
+    if (total === 0) return alert("Invalid chat export uploaded. Or at least; no messages were found.");
+
     delete firstChatter.previousDate;
     const data = JSON.stringify({
         total: total,
