@@ -102,7 +102,7 @@ function monthChart() {
 for their own whatsapp wrapping service. All credits go to them:
 https://github.com/judy-n/WhatsAppWrapped/blob/main/static/js/wrap.js
 */
-const colours = ["#580c82", "#8f30a1", "#f6d68d", "#46b3a5"];
+const colours = ["#f477b5", "#fcda41", "#f05120"];
 const max = data.top_50_words[0][1].toString();
 const min = data.top_50_words[data.top_50_words.length - 1][1].toString();
 const r = (a, b, t=768) => window.innerWidth > t ? a : b;
@@ -164,11 +164,11 @@ function drawCloud() {
         .enter().append("text")
         .style("font-size", function(d) { return d.size; })
         .style("fill", function(d) {
-            if (d.x < -1 * (width*0.37)) return "#c6c6c6";
             return colours[Math.floor(Math.random() * colours.length)];
         })
         .attr("text-anchor", "middle")
-        .style("font-family", "Helvetica")
+        .style("font-family", "var(--font-family)")
+        .style("font-weight", "bold")
         .attr("transform", function(d) {
             return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
         })
