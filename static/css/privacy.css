@@ -1,0 +1,48 @@
+:root {
+    --font-family: "Afacad Flux";
+}
+
+body {
+    font-family: var(--font-family);
+    margin: 30vh auto;
+    width: 90vw;
+    max-width: 800px;
+    background: black;
+    color: white;
+    font-size: 18px;
+}
+
+.button-wrapper {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+button {
+    width: 80vw;
+    max-width: 300px;
+    background: #25d366;
+    border: 3px solid #075e54;
+    border-radius: 15px;
+    cursor: pointer;
+    position: relative;
+    transition: .2s;
+}
+button::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    top: 0;
+    background: #075e54;
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    transition: .2s;
+}
+button:hover {
+    background: #48eb83;
+}
+button:hover::before {
+    top: 10px;
+    left: 10px;
+}

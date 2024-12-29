@@ -22,7 +22,7 @@ def test():
 
 @app.get("/privacy-policy")
 def privacy_policy():
-    return render_template("privavy_policy.html")
+    return render_template("privacy_policy.html")
 
 
 if __name__ == "__main__":
