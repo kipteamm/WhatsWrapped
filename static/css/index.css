@@ -1,0 +1,159 @@
+:root {
+    --font-family: "Afacad Flux";
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    margin: 0px;
+    height: 100vh;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.page {
+    background-color: #075e54;
+    height: 100vh;
+    width: 100vw;
+    visibility: hidden;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 30px 15px 15px 15px;
+    overflow: hidden;
+    display: flex;
+    position: absolute;
+    transition: .1s;
+    opacity: 0;
+}
+.page.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.button-wrapper {
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+button {
+    background: #25d366;
+    border: 3px solid black;
+    border-radius: 15px;
+    cursor: pointer;
+    position: relative;
+    transition: .2s;
+}
+label::before,
+button::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    top: 0;
+    background: black;
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    transition: .2s;
+}
+label:hover,
+button:hover {
+    background: #48eb83;
+}
+button:hover {
+    margin: -2.5px 0px 0px -2.5px;
+}
+label:hover::before,
+button:hover::before {
+    top: 5px;
+    left: 5px;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+label {
+    background: #25d366;
+    border: 3px solid black;
+    height: 20vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0px;
+    transition: .2s;
+    margin-bottom: 25px;
+    border-radius: 15px;
+    position: relative;
+}
+label:hover {
+    margin: -5px 0px 25px -5px;
+}
+
+.page#how h2 {
+    text-align: center;
+}
+
+.top {
+    margin-top: 35%;
+}
+
+.bottom {
+    margin-top: auto;
+    display: flex;
+    gap: 15px;
+}
+.bottom button {
+    flex: 1;
+}
+
+a {
+    color: #25d366;
+}
+
+.button-wrapper.privacy {
+    display: flex;
+    gap: 15px;
+}
+.button-wrapper.privacy button {
+    flex: 1;
+    padding: 15px;
+}
+button img {
+    width: 100%;
+}
+
+.page.instruction {
+    padding: 0px;
+}
+.instruction img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.instruction ol {
+    position: absolute;
+    top: 15px;
+    background-color: #25d366;
+    border: 2px solid black;
+    border-radius: 15px;
+    padding: 25px;
+    font-size: 18px;
+}
+
+@media (min-width: 768px) {
+    .page {
+        aspect-ratio: 8 / 16;
+        width: unset;
+        height: 90vh;
+        border-radius: 15px;
+    }
+}

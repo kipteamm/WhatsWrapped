@@ -2,12 +2,47 @@ const emojiRegex = /[#*0-9]\uFE0F?\u20E3|[\xA9\xAE\u203C\u2049\u2122\u2139\u2194
 const regex = /^(\d{2}\/\d{2}\/\d{4}), (\d{2}:\d{2}) - ([^:]+?)(?:\: (.*))?$/m;
 const whatsappRegex = /<[^>]*>/;
 
-function generateWrapped() {
-    const file = document.getElementById("chat").files[0];
-    const reader = new FileReader();
-    reader.onload = event => parseFile(event.target.result);
-    reader.onerror = error => console.error("Error reading file:", error);
-    reader.readAsText(file);
+async function generateWrapped(input) {
+    const label = document.getElementById("label");
+    label.innerHTML = "Loading...";
+    label.disabled = true;
+
+    try {
+        const file = input.files[0];
+        const fileType = file.name.split('.').pop().toLowerCase();
+
+        if (fileType === "txt") {
+            const reader = new FileReader();
+            reader.onload = event => parseFile(event.target.result);
+            reader.onerror = error => {
+                console.error("Error reading file:", error);
+                alert("Error reading .txt file.");
+            };
+            reader.readAsText(file);
+        } else if (fileType === "zip") {
+            const zip = new JSZip();
+            const zipContent = await zip.loadAsync(file);
+
+            let txtFile = null;
+            zip.forEach((relativePath, file) => {
+                if (relativePath.endsWith(".txt") && !txtFile) {
+                    txtFile = file;
+                }
+            });
+
+            if (!txtFile) {
+                throw new Error("No .txt file found in the .zip archive.");
+            }
+
+            const txtContent = await txtFile.async("text");
+            parseFile(txtContent);
+        } else {
+            throw new Error("Unsupported file type. Please upload a .txt or .zip file.");
+        }
+    } catch (error) {
+        console.error(error.message);
+        alert("Invalid chat export. " + error.message);
+    }
 }
 
 const wordCount = {};
@@ -193,4 +228,16 @@ function isSameDay(date1, date2) {
 
 function sortObject(object) {
     return Object.entries(object).sort(([, a], [, b]) => b - a);
+}
+
+let pageId = "main";
+function loadPage(newPage) {
+    document.getElementById(pageId).classList.remove("active");
+    pageId = newPage;
+    document.getElementById(pageId).classList.add("active");
+}
+
+function nextStep() {
+    const step = pageId.split("-");
+    loadPage(`${step[0]}-${parseInt(step[1]) + 1}`);
 }

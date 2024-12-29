@@ -8,9 +8,77 @@
 
     <script src="/static/js/wrapped.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/stopword/dist/stopword.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip/dist/jszip.min.js"></script>
+
+    <link rel="stylesheet" href="/static/css/index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap" rel="stylesheet">
 </head>
 <body>
-    <input id="chat" type="file" accept=".txt">
-    <button onclick="generateWrapped()">Get wrapped</button>
+    <div class="page active" id="main">
+        <h1>WhatsWrapped</h1>
+
+        <div class="button-wrapper top">
+            <label for="chat" id="label"><h3>Click to upload .txt or .zip</h3></label>
+            <input type="file" id="chat" accept=".txt,.zip" onchange="generateWrapped(this)">
+        </div>
+        <div class="button-wrapper bottom">
+            <button onclick="loadPage('how')"><h3>How?</h3></button>
+            <button onclick="loadPage('privacy')"><h3>Privacy?</h3></button>
+        </div>
+    </div>
+
+    <div class="page" id="privacy">
+        <h2>
+            WhatsWrapped does not see or store your messages, it is processed and kept in your browser window.
+            We clear it the moment you close the page or leave our service.
+        </h2>
+        <h2>
+            For our complete privacy notice, read the <a href="/privacy">Privacy Policy</a>.
+        </h2>
+
+        <div class="button-wrapper bottom">
+            <button onclick="loadPage('main')"><h3>Back</h3></button>
+        </div>
+    </div>
+    
+    <div class="page" id="how">
+        <div class="button-wrapper privacy">
+            <button onclick="loadPage('android-1')"><img src="/static/images/android.png" alt="android"/></button>
+            <button onclick="loadPage('apple-1')"><img src="/static/images/apple.png" alt="apple"/></button>
+        </div>
+        <h2>During the guide, click to proceed.</h2>
+    </div>
+
+    <div class="page instruction" id="android-1">
+        <img onclick="nextStep()" src="/static/images/android-1.jpg" alt="step 1"> 
+    </div>
+    <div class="page instruction" id="android-2">
+        <img onclick="nextStep()" src="/static/images/android-2.jpg" alt="step 2"> 
+    </div>
+    <div class="page instruction" id="android-3">
+        <img onclick="nextStep()" src="/static/images/android-3.jpg" alt="step 3"> 
+    </div>
+    <div class="page instruction" id="android-4">
+        <img onclick="nextStep()" src="/static/images/android-4.jpg" alt="step 4"> 
+    </div>
+    <div class="page instruction" id="android-5">
+        <ol>
+            <li>Share to your preferred platform</li>
+            <li>Download the shared folder</li>
+            <li>Click on this page to return and upload it</li>
+        </ol>
+        <img onclick="loadPage('main')" src="/static/images/android-5.jpg" alt="step 5"> 
+    </div>
+
+    <div class="page" id="apple-1">
+        <h2>I don't have an apple device. I will get to this as soon as possible.</h2>
+        <h3>I am sure the difference between Android and iOS can't be too big.</h3>
+        <div class="button-wrapper bottom">
+            <button onclick="loadPage('android-1')"><h2>Android</h2></button>
+        </div>
+    </div>
 </body>
 </html>

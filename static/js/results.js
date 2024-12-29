@@ -345,4 +345,5 @@ document.addEventListener("keydown", (event)=> {
 function toggleShare() {
     stop();
     document.getElementById("share").classList.toggle("active");
+    if (!document.getElementById("share").classList.contains("active")) return nextPage();
 }
