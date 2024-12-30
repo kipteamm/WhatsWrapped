@@ -214,6 +214,12 @@ function nextPage() {
 
 function start() {
     if (intervalId) return;
+    if (pageId === 0) {
+        const el = document.documentElement;
+        const rfs = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen;
+        rfs.call(el);
+    }
+
     intervalId = setInterval(nextPage, 8000);
     document.getElementById("share").classList.remove("active");
 }
@@ -283,7 +289,6 @@ async function generateImage(id) {
     element.style.borderRadius = computedStyle.borderRadius;
 
     const options = {
-        quality: 1,
         width: rect.width,
         height: rect.height,
         style: {
@@ -292,16 +297,16 @@ async function generateImage(id) {
         }
     };
 
-    return domtoimage.toJpeg(element, options)
+    return domtoimage.toPng(element, options)
         .then(function(dataUrl) {
             const shareText = "Check out my WhatsWrapped stats!"; // Customize this message
-            const shareUrl = "https://whatswrapped.net"; // Your website URL
+            const shareUrl = "https://www.whatswrapped.net"; // Your website URL
 
             fetch(dataUrl)
             .then(res => res.blob())
             .then(blob => {
                 // Create a File from the blob
-                const file = new File([blob], 'whatswrapped-stats.jpeg', { type: 'image/jpeg' });
+                const file = new File([blob], 'whatswrapped-stats.png', { type: 'image/png' });
                                     
                 // Check if Web Share API is supported
                 if (navigator.share) {
@@ -343,7 +348,19 @@ document.addEventListener("keydown", (event)=> {
 });
 
 function toggleShare() {
+    if (pageId === 15) return;
     stop();
     document.getElementById("share").classList.toggle("active");
     if (!document.getElementById("share").classList.contains("active")) return nextPage();
+}
+
+function showCard(id) {
+    const card = document.getElementById(`share-card-${id}`);
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+}
+
+function selectColour(colorCode) {
+    document.querySelectorAll(".share-card").forEach(card => {
+        card.style.background = colorCode;
+    })
 }

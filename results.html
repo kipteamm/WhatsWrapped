@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap" rel="stylesheet">   
     <link rel="stylesheet" href="/static/css/results.css">
 
     <!-- Load d3.js -->
@@ -75,7 +76,7 @@
     
     <div class="page" id="page-5">
         <h2 class="first">Your years have its ups and downs</h2>
-        <h3 class="second">However <span id="most_active_month">0</span> definitely is your bussiest month</h3>
+        <h3 class="second">However <span id="most_active_month">0</span> definitely is your busiest month</h3>
 
         <div class="month-chart">
             <div id="january"><span>January</span></div>
@@ -139,8 +140,65 @@
     </div>
 
     <div class="page" id="page-15">
-        <div class="button-wrapper">
-            <button onclick="generateImage('page-2')"><h2 class="visible">Share</h2></button>
+        <div class="share-cards">
+            <div class="share-card" id="share-card-1" onclick="showCard(1)">
+                <div class="stats">
+                    <h4 class="stat visible">Artsy</h4>
+                    <h4 class="stat visible">Kipteam</h4>
+                </div>
+                <div class="stats">
+                    <div class="stat">
+                        <b>Top words</b>
+                        <ol>
+                            <li>Yes</li>
+                            <li>Yes</li>
+                            <li>Yes</li>
+                            <li>Yes</li>
+                            <li>Yes</li>
+                        </ol>
+                    </div>
+                    <div class="stat">
+                        <b>Top emojis</b>
+                        <ol>
+                            <li>Yes</li>
+                            <li>Yes</li>
+                            <li>Yes</li>
+                            <li>Yes</li>
+                            <li>Yes</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="stats">
+                    <div class="stat">
+                        <b>Total messages</b>
+                        <span>0</span>
+                    </div>
+                    <div class="stat">
+                        <b>Longest streak</b>
+                        <span>0</span>
+                    </div>
+                </div>
+                <p>
+                    www.whatswrapped.net
+                </p>
+            </div>
+            <div class="share-card" id="share-card-2" onclick="showCard(2)">
+                card 2
+            </div>
+            <div class="share-card" id="share-card-3" onclick="showCard(3)">
+                card 3
+            </div>
+        </div>
+
+        <div class="colour-picker">
+            <div class="colour" onclick="selectColour('#fe4773')" style="background-color:#fe4773;"></div>
+            <div class="colour" onclick="selectColour('#f6d68d')" style="background-color:#f6d68d;"></div>
+            <div class="colour" onclick="selectColour('#46b3a5')" style="background-color:#46b3a5;"></div>
+            <div class="colour" onclick="selectColour('#2e6d92')" style="background-color:#2e6d92;"></div>
+        </div>
+
+        <div class="share-button button-wrapper">
+            <button onclick="generateImage('page-2')"><h4 class="visible">Share</h4></button>
         </div>
     </div>
 

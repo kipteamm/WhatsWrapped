@@ -170,6 +170,9 @@ body {
 .page#page-14 {
     background: #580c82;
 }
+.page#page-15 {
+    background: #8f30a1;
+}
 
 .button-wrapper {
     position: relative;
@@ -350,12 +353,7 @@ h2, h3, h4, h5, h6 {
     position: relative;
     text-align: right;
     border-radius: 0px 5px 5px 0px;
-}
-.emoji-chart div:first-child  {
-    border-radius: 0px 0px 5px 0px;
-}
-.emoji-chart div:last-child  {
-    border-radius: 0px 5px 0px 0px;
+    margin: 5px 0px;
 }
 
 .emoji-chart div span {
@@ -363,12 +361,95 @@ h2, h3, h4, h5, h6 {
     top: 50%;
     transform: translateY(-50%);
     padding: 0px 10px;
+    font-size: 22px;
 }
 
 #word-cloud svg {
     position: absolute;
     top: 0;
     left: 0;
+}
+
+.share-cards {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    width: calc(100% + 30px);
+    margin: 0px -15px;
+    scroll-snap-type: x mandatory;
+    padding: 0px calc(50% - 130px);
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.share-card {
+    aspect-ratio: 9 / 16;
+    width: 280px;
+    background-color: #fe4773;
+    flex: 0 0 auto;
+    scroll-snap-align: center;
+    border-radius: 15px;
+    transition: .2s;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.stats {
+    display: flex;
+    gap: 5px;
+}
+.stats .stat {
+    flex: 1;
+    text-align: left;
+}
+.stats h4.stat {
+    text-align: center;
+}
+
+.stat ol {
+    padding-inline-start: 0;
+    margin: 0;
+    padding: 0px 25px;
+    font-size: 20px;
+}
+.stat span {
+    display: block;
+    font-size: 20px;
+    font-weight: normal;
+}
+
+.share-card p {
+    margin-top: auto;
+}
+
+.colour-picker {
+    display: flex;
+    gap: 5px;
+    margin: 25px;
+}
+
+.colour {
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    border: 3px solid black;
+    cursor: pointer;
+}
+
+.share-button button {
+    background: #fe4773;
+}
+.share-button button:hover {
+    margin: 0px;
+    background-color: #fb6e8f;
+    transition: .2s;
+}
+button:hover::before {
+    top: 5px;
+    left: 5px;
+    transition: .2s;
 }
 
 .share {
