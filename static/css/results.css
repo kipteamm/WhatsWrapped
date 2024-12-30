@@ -370,18 +370,6 @@ h2, h3, h4, h5, h6 {
     left: 0;
 }
 
-.share-cards {
-    display: flex;
-    gap: 15px;
-    overflow-x: auto;
-    width: calc(100% + 30px);
-    margin: 0px -15px;
-    scroll-snap-type: x mandatory;
-    padding: 0px calc(50% - 130px);
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-}
-
 .share-card {
     aspect-ratio: 9 / 16;
     width: 280px;
