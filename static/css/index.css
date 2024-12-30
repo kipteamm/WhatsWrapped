@@ -80,6 +80,31 @@ input[type="file"] {
     display: none;
 }
 
+h1 {
+    margin-bottom: 0px;
+}
+p {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+.progress-bar {
+    width: 90%;
+    height: 15px;
+    background-color: #075e54;
+    margin: 0px 5% 10px 5%;
+    border: 3px solid black;
+    border-radius: 50px;
+}
+
+.progress-bar .progress {
+    height: 100%;
+    width: 0;
+    border-radius: 50px;
+    background: repeating-linear-gradient(45deg, #25d366, #25d366 10px, #075e54 10px, #075e54 15px);
+}
+
 label {
     background: #25d366;
     border: 3px solid black;
@@ -102,7 +127,7 @@ label:hover {
 }
 
 .top {
-    margin-top: 35%;
+    margin-top: 20%;
 }
 
 .bottom {

@@ -23,6 +23,8 @@
     <meta property="og:image" content="https://www.whatswrapped.net/static/images/banner.png">
 
     <link rel="icon" href="https://www.whatswrapped.net/static/images/favicon.ico">
+    <link rel="canonical" href="https://www.whatsrapped.net/"/>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap" rel="stylesheet">
@@ -36,8 +38,12 @@
 <body>
     <div class="page active" id="main">
         <h1>WhatsWrapped</h1>
+        <p>
+            Generate a fun and <strong>detailed wrapped</strong> of your Whatsapp chat completely for <strong>free</strong>!
+        </p>
 
         <div class="button-wrapper top">
+            <div class="progress-bar"><div class="progress" id="progress-bar"></div></div>
             <label for="chat" id="label"><h3>Click to upload .txt or .zip</h3></label>
             <input type="file" id="chat" accept=".txt,.zip" onchange="generateWrapped(this)">
         </div>
