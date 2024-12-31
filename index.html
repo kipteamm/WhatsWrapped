@@ -38,11 +38,42 @@
 </head>
 <body>
     <div class="page active" id="main">
-        <h1>WhatsWrapped</h1>
+        <div class="navbar" id="navbar">
+            <h1>WhatsWrapped</h1>
+            <div class="icon" onclick="toggleNavbar()">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </div>
+
+        <nav id="nav-menu">
+            <a href="https://www.kipteam.net/" target="_blank">About</a>
+            <a href="/privacy-policy">Privacy</a>
+            <div class="button" id="donate-button-container" onclick="document.querySelector('img#donate-button').click()">
+                Donate
+                <div id="donate-button"></div>
+                <script src="https://www.paypalobjects.com/donate/sdk/donate-sdk.js" charset="UTF-8"></script>
+                <script>
+                    PayPal.Donation.Button({
+                        env:'production',
+                        hosted_button_id:'535KB2C6ZLH4Y',
+                        image: {
+                            src:'/static/images/donate.png',
+                            alt:'Donate with PayPal button',
+                            title:'PayPal - The safer, easier way to pay online!',
+                        },
+                    }).render('#donate-button');
+                </script>
+            </div>
+            <p class="disclaimer">
+                Donations make WhatsWrapped possible <span class="emoji">❤️</span>
+            </p>            
+        </nav>
+    
         <p>
             Generate a fun and <strong>detailed wrapped</strong> of your Whatsapp chat completely for <strong>free</strong>!
         </p>
-
         <div class="button-wrapper top">
             <div class="progress-bar"><div class="progress" id="progress-bar"></div></div>
             <label for="chat" id="label"><h3>Click to upload .txt or .zip</h3></label>
@@ -106,5 +137,14 @@
             <button onclick="loadPage('android-1')"><h2>Android</h2></button>
         </div>
     </div>
+
+    <script>
+        const navMenu = document.getElementById("nav-menu");
+        const navbar = document.getElementById("navbar");
+        function toggleNavbar() {
+            navMenu.classList.toggle("active");
+            navbar.classList.toggle("active");
+        }
+    </script>
 </body>
 </html>

@@ -16,6 +16,12 @@ body {
     align-items: center;
 }
 
+.emoji {
+    font-family: "Noto Color Emoji", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
 .page {
     background-color: #075e54;
     height: 100vh;
@@ -81,12 +87,114 @@ input[type="file"] {
 }
 
 h1 {
-    margin-bottom: 0px;
+    margin: 0px;
+    font-size: 20px;
+    flex: 1;
 }
 p {
     text-align: center;
-    margin-top: 10px;
+    margin-top: 32%;
     font-size: 20px;
+}
+
+.navbar {
+    display: flex;
+    background-color: #25d366;
+    border-bottom: 3px solid black;
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    padding: 15px;
+    align-items: center;
+}
+
+.icon {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+    height: 35px;
+    width: 35px;
+}
+.icon .bar {
+    height: 5px;
+    background: black;
+    border-radius: 15px;
+    transition: .4s  cubic-bezier(0.68, -0.6, 0.32, 1.6);
+}
+
+div.bar:nth-of-type(1) {
+    width:50%;
+}
+div.bar:nth-of-type(2) {
+    width:100%;
+}
+div.bar:nth-of-type(3) {
+    width:75%;
+}
+
+.navbar.active div.bar:nth-of-type(1), 
+.icon:hover div.bar:nth-of-type(1) {
+    transform-origin: bottom;
+    transform: rotatez(45deg) translate(-10px, 12px);
+}
+.navbar.active div.bar:nth-of-type(2), 
+.icon:hover div.bar:nth-of-type(2) {
+    transform-origin: top;
+    transform: rotatez(-45deg);
+}
+.navbar.active div.bar:nth-of-type(3), 
+.icon:hover div.bar:nth-of-type(3) {
+    transform-origin: bottom;
+    width: 50%;
+    transform: translate(-3px, -5px) rotatez(45deg);
+}
+
+nav {
+    position: absolute;
+    width: calc(100% + 3px);
+    margin-left: -3px;
+    border-left: 3px solid black;
+    background: #075e54;
+    bottom: 0%;
+    left: 110%;
+    height: calc(100% - 67.5px);
+    transition: .4s;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+nav.active {
+    left: 0;
+}
+
+nav a,
+nav .button {
+    border: 3px solid black;
+    color: black;
+    width: 60%;
+    text-align: center;
+    padding: 15px 45px;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 15px;
+    background-color: #25d366;
+    cursor: pointer;
+}
+div#donate-button {
+    width: 0px;
+    height: 0px;
+}
+p.disclaimer {
+    font-size: 14px;
+    margin: 0px;
+    width: 60%;
 }
 
 .progress-bar {
@@ -127,7 +235,7 @@ label:hover {
 }
 
 .top {
-    margin-top: 20%;
+    margin-top: 15%;
 }
 
 .bottom {

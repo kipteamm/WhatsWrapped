@@ -32,8 +32,8 @@ const textAnimations = ["first", "second", "third", "fourth", "fifth", "sixth"]
 const today = new Date();
 
 function dataInit() {
-    console.log(data);
     detectSwipeUp(document.body);
+    
     data.messages_per_participant.forEach(participant => {
         document.getElementById("participants").innerHTML += `<h2 class="first">${participant[0]}<div class="layer-0"></div><div class="layer layer-1"></div><div class="layer layer-2"></div><div class="layer layer-3"></div></h2>`;
     });
@@ -212,6 +212,8 @@ function daysInYear(year) {
 let pageId = 0;
 let intervalId = null;
 function nextPage() {
+    if (pageId === 15) stop();
+
     document.getElementById(`page-${pageId}`).classList.remove("active");
     document.getElementById(`page-indicator-${pageId}`).classList.add("finished");
     pageId++;
@@ -219,7 +221,6 @@ function nextPage() {
     document.getElementById(`page-indicator-${pageId}`).classList.add("active");
 
     if (!intervalId) return start();
-    if (pageId === 15) stop();
 }
 
 function start() {
