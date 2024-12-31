@@ -306,6 +306,7 @@ h2, h3, h4, h5, h6 {
 
 .month-chart div {
     background-color: #e64074;
+    position: relative;
 }
 .day-chart div {
     border: 2px solid #fdbd2c;
@@ -333,10 +334,10 @@ h2, h3, h4, h5, h6 {
 }
 
 .month-chart div span {
-    margin-top: auto;
-    margin-bottom: 15px;
     writing-mode: tb-rl;
     transform: rotate(-180deg);
+    position: absolute;
+    bottom: 15px;
 }
 
 .emoji-chart {
@@ -391,6 +392,7 @@ h2, h3, h4, h5, h6 {
 .stats .stat {
     flex: 1;
     text-align: left;
+    width: 50%;
 }
 .stats h4.stat {
     text-align: center;
@@ -430,11 +432,20 @@ h2, h3, h4, h5, h6 {
 .stat ol {
     padding-inline-start: 0;
     margin: 0;
-    padding: 0px 25px;
+    list-style-position: inside;
     font-size: 20px;
 }
-.stat span {
+.stat ol li {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.stat b {
     display: block;
+}
+.stat span {
     font-size: 20px;
     font-weight: normal;
 }

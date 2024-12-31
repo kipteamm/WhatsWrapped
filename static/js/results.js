@@ -26,6 +26,7 @@ if (document.readyState !== 'loading') {
     });
 }
 
+let pages = [0, 1, 2, 4, 5, 6, 11, 12, 15];
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const textAnimations = ["first", "second", "third", "fourth", "fifth", "sixth"]
@@ -38,12 +39,18 @@ function dataInit() {
         document.getElementById("participants").innerHTML += `<h2 class="first">${participant[0]}<div class="layer-0"></div><div class="layer layer-1"></div><div class="layer layer-2"></div><div class="layer layer-3"></div></h2>`;
     });
     document.getElementById("total").innerHTML = data.total;
-    document.getElementById("best_day_date").innerHTML = formatDate(data.best_day.date);
-    document.getElementById("best_day_messages").innerHTML = data.best_day.messages;
+
+    if (data.best_day.date) {
+        document.getElementById("best_day_date").innerHTML = formatDate(data.best_day.date);
+        document.getElementById("best_day_messages").innerHTML = data.best_day.messages;
+        pages.push(3);
+    }
+
     document.getElementById("most_active_day").innerHTML = days[data.days[0][0]] + "s";
     dayChart();
     document.getElementById("most_active_month").innerHTML = months[data.months[0][0]];
     monthChart();
+
     let i = 0;
     let count = 0;
     while (today.getFullYear() - i > 2008 && count < Math.min(5, Object.keys(data.days_per_year).length)) {
@@ -61,21 +68,49 @@ function dataInit() {
         i++;
         count++;
     }
-    document.getElementById("first_chatter").innerHTML = data.first_chatter[0][0];
-    document.getElementById("second_chatter").innerHTML = data.first_chatter[1][0];
-    document.getElementById("chatter_gap").innerHTML = ((Math.abs(data.first_chatter[0][1] - data.first_chatter[1][1]) / data.first_chatter[0][1]) * 100).toFixed(3);
-    document.getElementById("most_messages").innerHTML = data.messages_per_participant[0][0];
-    document.getElementById("most_messages_percentage").innerHTML = ((data.messages_per_participant[0][1] / data.total) * 100).toFixed(3);
-    document.getElementById("most_edits").innerHTML = data.messages_edit_per_participant[0][0];
-    document.getElementById("edit_ratio").innerHTML = ((data.messages_edit_per_participant[0][1] / ((data.messages_per_participant[0][0] === data.messages_edit_per_participant[0][0])? data.messages_per_participant[0][1]: data.messages_per_participant[1][1])) * 100).toFixed(3);
-    document.getElementById("streak-start").innerHTML = formatDate(data.streak.startDate);
-    document.getElementById("streak-end").innerHTML = formatDate(data.streak.endDate);
-    document.getElementById("streak").innerHTML = `${data.streak.streak} day${data.streak.streak === 1? "" : "s"}`;
-    document.getElementById("total_emojis").innerHTML = data.top_10_emojis[0][1];
-    drawCloud();
-    emojiChart();
-    document.getElementById("participant-0").innerText += data.messages_per_participant[0][0]
-    document.getElementById("participant-1").innerText += data.messages_per_participant[1][0]
+
+    if (data.first_chatter.length > 1) {
+        document.getElementById("first_chatter").innerHTML = data.first_chatter[0][0];
+        document.getElementById("second_chatter").innerHTML = data.first_chatter[1][0];
+        document.getElementById("chatter_gap").innerHTML = ((Math.abs(data.first_chatter[0][1] - data.first_chatter[1][1]) / data.first_chatter[0][1]) * 100).toFixed(3);
+        pages.push(7);
+    } 
+    
+    if (data.messages_per_participant[0][1] !== (data.messages_edit_per_participant[1][1] || 0)) {
+        document.getElementById("most_messages").innerHTML = data.messages_per_participant[0][0];
+        document.getElementById("most_messages_percentage").innerHTML = ((data.messages_per_participant[0][1] / data.total) * 100).toFixed(3);
+        pages.push(8);
+    }
+
+    if (data.messages_edit_per_participant.length > 1) {
+        document.getElementById("most_edits").innerHTML = data.messages_edit_per_participant[0][0];
+        document.getElementById("edit_ratio").innerHTML = ((data.messages_edit_per_participant[0][1] / ((data.messages_per_participant[0][0] === data.messages_edit_per_participant[0][0])? data.messages_per_participant[0][1]: data.messages_per_participant[1][1])) * 100).toFixed(3);
+        pages.push(9);
+    }
+
+    if (data.streak.streak > 0) {
+        document.getElementById("streak-start").innerHTML = formatDate(data.streak.startDate);
+        document.getElementById("streak-end").innerHTML = formatDate(data.streak.endDate);
+        document.getElementById("streak").innerHTML = `${data.streak.streak} day${data.streak.streak === 1? "" : "s"}`;
+        pages.push(10);
+    }
+
+    if (data.top_10_emojis.total > 0) {
+        document.getElementById("total_emojis").innerHTML = data.top_10_emojis[0][1];
+        emojiChart();
+        pages.push(13);
+        pages.push(14);
+    }
+    
+    document.getElementById("participant-0").innerText += data.messages_per_participant[0][0];
+    if (data.messages_per_participant.length === 1) {
+        document.getElementById("participant-1").parentNode.remove();
+    } else if (data.messages_per_participant.length === 2) {
+        document.getElementById("participant-1").innerText += data.messages_per_participant[1][0];
+    } else if (data.messages_per_participant.length > 2) {
+        document.getElementById("participants").innerHTML = `<h4 class="stat visible">Group chat<div class="user-deco user-deco-0"></div><div class="user-deco user-deco-1"></div><div class="user-deco user-deco-2"></div></h4>`;
+    }
+
     const topWords = document.getElementById("top-words");
     const topEmojis = document.getElementById("top-emojis");
     for (let i = 0; i < 5; i++) {
@@ -83,7 +118,13 @@ function dataInit() {
         if (i < data.top_10_emojis.length - 1) topEmojis.innerHTML += `<li><span class="emoji">${data.top_10_emojis[i + 1][0]}</span></li>`;
     }
     document.getElementById("total_messages").innerHTML = data.total;
-    document.getElementById("streak_2").innerHTML = data.streak.streak;
+    document.getElementById("streak_2").innerHTML = `${data.streak.streak} days`;
+
+    const pageIndicators = document.getElementById("page-indicators");
+    pages.sort((a, b) => a - b);
+    pages.forEach(page => {
+        pageIndicators.innerHTML += `<div class="page-indicator" id="page-indicator-${page}"></div>`;
+    });
 }
 
 function formatDate(dateString) {
@@ -148,7 +189,6 @@ function drawCloud() {
     if (width === lastCloudWidth) return; // don't redraw
     lastCloudWidth = width;
     
-    console.log(words);
     document.getElementById("word-cloud").innerHTML = "";
 
     let svg = d3.select("#word-cloud").append("svg")
@@ -209,28 +249,28 @@ function daysInYear(year) {
     return ((year % 4 === 0 && year % 100 > 0) || year %400 == 0) ? 366 : 365;
 }
 
-let pageId = 0;
+let pageIndex = 0;
 let intervalId = null;
 function nextPage() {
-    if (pageId === 15) stop();
-
-    document.getElementById(`page-${pageId}`).classList.remove("active");
-    document.getElementById(`page-indicator-${pageId}`).classList.add("finished");
-    pageId++;
-    document.getElementById(`page-${pageId}`).classList.add("active");
-    document.getElementById(`page-indicator-${pageId}`).classList.add("active");
-
+    if (pageIndex + 2 > pages.length) return;
+    
+    document.getElementById(`page-${pages[pageIndex]}`).classList.remove("active");
+    document.getElementById(`page-indicator-${pages[pageIndex]}`).classList.add("finished");
+    pageIndex++;
+    document.getElementById(`page-${pages[pageIndex]}`).classList.add("active");
+    document.getElementById(`page-indicator-${pages[pageIndex]}`).classList.add("active");
     if (!intervalId) return start();
 }
 
 function start() {
     if (intervalId) return;
-    if (pageId === 0) {
+    if (pageIndex === 0) {
         const el = document.documentElement;
         const rfs = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen;
         rfs.call(el);
     }
 
+    drawCloud();
     intervalId = setInterval(nextPage, 8000);
     document.getElementById("share").classList.remove("active");
 }
@@ -242,17 +282,16 @@ function stop() {
 }
 
 window.onclick = (event) => {
-    if (event.target.parentNode.id === "share") return;
-    if (pageId === 15) return;
+    if (pages.length - 2 < pageIndex) return;
     stop();
     nextPage();
     start();
 }
 
-function loadPage(newPageId) {
-    document.getElementById(`page-${pageId}`).classList.remove("active");
-    pageId = newPageId;
-    document.getElementById(`page-${pageId}`).classList.add("active");
+function loadPage(newpageIndex) {
+    document.getElementById(`page-${pageIndex}`).classList.remove("active");
+    pageIndex = newpageIndex;
+    document.getElementById(`page-${pageIndex}`).classList.add("active");
 }
 
 let isGenerating = false;
@@ -350,16 +389,16 @@ const detectSwipeUp = (element) => {
     element.addEventListener('touchend', e => {
       const touchendY = e.changedTouches[0].clientY;
       const diff = touchstartY - touchendY;
-      if (diff > 50) toggleShare(`page-${pageId}`);
+      if (diff > 50) toggleShare(`page-${pageIndex}`);
     });
 };
 
 document.addEventListener("keydown", (event)=> {
-    if (event.key === "ArrowUp") toggleShare(`page-${pageId}`);
+    if (event.key === "ArrowUp") toggleShare(`page-${pageIndex}`);
 });
 
 function toggleShare() {
-    if (pageId === 15) return;
+    if (pageIndex > pages.length - 2) return;
     stop();
     document.getElementById("share").classList.toggle("active");
     if (!document.getElementById("share").classList.contains("active")) return nextPage();

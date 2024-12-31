@@ -9,7 +9,6 @@ if (document.readyState !== 'loading') {
     });
 }
 
-
 async function generateWrapped(input) {
     const label = document.getElementById("label");
     label.innerHTML = "Loading...";
@@ -72,8 +71,16 @@ const messageLength = {};
 const messageEdits = {};
 const mediaOmitted = {};
 let progressBar;
+let language;
 
 function wrappedInit() {progressBar = document.getElementById("progress-bar");}
+
+async function detectLanguage(lines) {
+    const sampleLines = lines.slice(0, 100);
+    
+    const sampleText = sampleLines.join(' ');
+    return sw[franc(sampleText, { minLength: 3 })] || sw.eng;
+}
 
 async function parseFile(content) {
     if (!progressBar) return;
@@ -90,6 +97,8 @@ async function parseFile(content) {
 
     requestAnimationFrame(updateProgress);
 
+    language = await detectLanguage(lines);
+
     let currentMessage = null;
     for (let i = 0; i < lines.length; i += CHUNK_SIZE) {
         const chunk = lines.slice(i, i + CHUNK_SIZE);
@@ -105,11 +114,11 @@ async function parseFile(content) {
             if (currentMessage) processMessage(currentMessage);
 
             const [_, _date, time, person, message] = match;
-            const [day, month, year] = _date.split("/");
+            const [day, month, year] = _date.replaceAll(".", "/").split("/");
             currentMessage = { 
-                date: `${month}/${day}/${year}`,
+                date: `${month}/${day}/${year.length === 4? year: parseInt(year) + 2000}`,
                 time, 
-                person, 
+                person: person.trim(), 
                 message 
             };
             lineCount++;
@@ -123,7 +132,7 @@ async function parseFile(content) {
     if (total === 0) return alert("Invalid chat export uploaded. Or at least; no messages were found.");
 
     delete firstChatter.previousDate;
-    const data = JSON.stringify({
+    const data = {
         total: total,
         top_50_words: sortObject(wordCount).slice(0, 50),
         top_10_emojis: sortObject(emojiCount).slice(0, 11),
@@ -140,13 +149,23 @@ async function parseFile(content) {
         days_per_year: yearDays,
         best_day: bestDay,
         streak: bestStreak,
-    });
-
+    };
+    
     const encoder = new TextEncoder();
-    const utf8Bytes = encoder.encode(data);
+    const utf8Bytes = encoder.encode(JSON.stringify(data));
 
     return window.location.href='/results?d=' + btoa(String.fromCharCode(...utf8Bytes)).replace(/\+/g, '-').replace(/\//g, '_');
 }
+
+const mediaOmittedPhrases = [
+    "Media omitted",
+    "image omitted",
+    "Medien ausgeschlossen",
+]
+const messageEditedPhrases = [
+    "This message was edited",
+    "Diese Nachricht wurde bearbeitet"
+]
 
 function processMessage(messageData) {
     if (messageData.message === undefined) return;
@@ -162,6 +181,8 @@ function processMessage(messageData) {
 
     if (!firstChatter.previousDate || (Math.abs(firstChatter.previousDate.getTime() - date.getTime()) > 3600000)) {
         firstChatter[messageData.person] = (firstChatter[messageData.person] || 0) + 1;
+    } else if (!firstChatter[messageData.person]) {
+        firstChatter[messageData.person] = 0;
     }
     firstChatter.previousDate = date;
 
@@ -204,14 +225,14 @@ function processMessage(messageData) {
     }
 
     let whatsappAction;
-    if (messageData.message.includes("<Media omitted>") || messageData.message.includes("image omitted")) whatsappAction = mediaOmitted;
-    if (messageData.message.includes("This message was edited")) whatsappAction = messageEdits;
-
+    if (mediaOmittedPhrases.some(phrase => messageData.message.includes(phrase))) whatsappAction = mediaOmitted;
+    if (messageEditedPhrases.some(phrase => messageData.message.includes(phrase))) whatsappAction = messageEdits;
+    
     if (whatsappAction) {
         whatsappAction[messageData.person] = (whatsappAction[messageData.person] || 0) + 1;
         return;
     }
-
+    
     // Longest message
     if (messageData.message.length > longestMessage.length) {
         longestMessage.length = messageData.message.length;
@@ -219,7 +240,7 @@ function processMessage(messageData) {
     }
     
     // Count words and emojis
-    messageData.message = sw.removeStopwords(messageData.message.split(" "), sw.nld);
+    messageData.message = sw.removeStopwords(messageData.message.split(" "), language);
     const words = messageData.message;
     for (const word of words) {
         const emojis = [...word.matchAll(emojiRegex)];
