@@ -446,7 +446,7 @@ h2, h3, h4, h5, h6 {
 .colour-picker {
     display: flex;
     gap: 5px;
-    margin: 25px;
+    margin: 20px;
 }
 
 .colour {
@@ -500,7 +500,7 @@ button:hover::before {
     .page {
         aspect-ratio: 9 / 16;
         width: unset;
-        height: 90vh;
+        height: 94vh;
         border-radius: 15px;
     }
     .share-message.small {
