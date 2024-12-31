@@ -402,6 +402,9 @@ h2, h3, h4, h5, h6 {
     background: #fe4773;
     padding: 5px 0px;
 }
+.stats h4.stat span {
+    font-weight: bold;
+}
 
 .user-deco {
     position: absolute;
