@@ -74,6 +74,16 @@ function dataInit() {
     document.getElementById("total_emojis").innerHTML = data.top_10_emojis[0][1];
     drawCloud();
     emojiChart();
+    document.getElementById("participant-0").innerText += data.messages_per_participant[0][0]
+    document.getElementById("participant-1").innerText += data.messages_per_participant[1][0]
+    const topWords = document.getElementById("top-words");
+    const topEmojis = document.getElementById("top-emojis");
+    for (let i = 0; i < 5; i++) {
+        if (i < data.top_50_words.length) topWords.innerHTML += `<li>${data.top_50_words[i][0]}</li>`;
+        if (i < data.top_10_emojis.length - 1) topEmojis.innerHTML += `<li><span class="emoji">${data.top_10_emojis[i + 1][0]}</span></li>`;
+    }
+    document.getElementById("total_messages").innerHTML = data.total;
+    document.getElementById("streak_2").innerHTML = data.streak.streak;
 }
 
 function formatDate(dateString) {
@@ -352,11 +362,6 @@ function toggleShare() {
     stop();
     document.getElementById("share").classList.toggle("active");
     if (!document.getElementById("share").classList.contains("active")) return nextPage();
-}
-
-function showCard(id) {
-    const card = document.getElementById(`share-card-${id}`);
-    card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
 }
 
 function selectColour(colorCode) {

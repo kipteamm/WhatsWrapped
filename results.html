@@ -140,41 +140,31 @@
     </div>
 
     <div class="page" id="page-15">
-        <div class="share-card" id="share-card-1" onclick="showCard(1)">
-            <div class="stats">
-                <h4 class="stat visible">Artsy</h4>
-                <h4 class="stat visible">Kipteam</h4>
+        <div class="share-card" id="share-card">
+            <div class="button-wrapper stats">
+                <h4 class="stat visible"><span id="participant-0"></span><div class="user-deco user-deco-0"></div><div class="user-deco user-deco-1"></div><div class="user-deco user-deco-2"></div></h4>
+                <h4 class="stat visible"><span id="participant-1"></span><div class="user-deco user-deco-0"></div><div class="user-deco user-deco-1"></div><div class="user-deco user-deco-2"></div></h4>
             </div>
             <div class="stats">
                 <div class="stat">
                     <b>Top words</b>
-                    <ol>
-                        <li>Yes</li>
-                        <li>Yes</li>
-                        <li>Yes</li>
-                        <li>Yes</li>
-                        <li>Yes</li>
+                    <ol id="top-words">
                     </ol>
                 </div>
                 <div class="stat">
                     <b>Top emojis</b>
-                    <ol>
-                        <li>Yes</li>
-                        <li>Yes</li>
-                        <li>Yes</li>
-                        <li>Yes</li>
-                        <li>Yes</li>
+                    <ol id="top-emojis">
                     </ol>
                 </div>
             </div>
             <div class="stats">
                 <div class="stat">
                     <b>Total messages</b>
-                    <span>0</span>
+                    <span id="total_messages">0</span>
                 </div>
                 <div class="stat">
                     <b>Longest streak</b>
-                    <span>0</span>
+                    <span id="streak_2">0</span>
                 </div>
             </div>
             <p>
@@ -190,7 +180,7 @@
         </div>
 
         <div class="share-button button-wrapper">
-            <button onclick="generateImage('page-2')"><h4 class="visible">Share</h4></button>
+            <button onclick="generateImage('share-card')"><h4 class="visible">Share</h4></button>
         </div>
     </div>
 
