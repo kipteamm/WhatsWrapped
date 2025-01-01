@@ -30,7 +30,7 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    padding: 30px 15px 15px 15px;
+    padding: 15px;
     overflow: hidden;
     display: flex;
     position: absolute;
@@ -263,13 +263,10 @@ button img {
     width: 100%;
 }
 
-.page.instruction {
-    padding: 0px;
-}
 .instruction img {
-    object-fit: cover;
-    width: 100%;
+    object-fit: contain;
     height: 100%;
+    border-radius: 15px;
 }
 
 .instruction ol {
