@@ -135,21 +135,18 @@ div.bar:nth-of-type(3) {
     width:75%;
 }
 
-.navbar.active div.bar:nth-of-type(1), 
-.icon:hover div.bar:nth-of-type(1) {
+.navbar.active div.bar:nth-of-type(1) {
     transform-origin: bottom;
-    transform: rotatez(45deg) translate(-10px, 12px);
+    transform: rotatez(45deg) translate(-9px, 12px);
 }
-.navbar.active div.bar:nth-of-type(2), 
-.icon:hover div.bar:nth-of-type(2) {
+.navbar.active div.bar:nth-of-type(2) {
     transform-origin: top;
     transform: rotatez(-45deg);
 }
-.navbar.active div.bar:nth-of-type(3), 
-.icon:hover div.bar:nth-of-type(3) {
+.navbar.active div.bar:nth-of-type(3) {
     transform-origin: bottom;
     width: 50%;
-    transform: translate(-3px, -5px) rotatez(45deg);
+    transform: translate(-2px, -5px) rotatez(45deg);
 }
 
 nav {
@@ -285,5 +282,19 @@ button img {
         width: unset;
         height: 90vh;
         border-radius: 15px;
+    }
+
+    .icon:hover div.bar:nth-of-type(1) {
+        transform-origin: bottom;
+        transform: rotatez(45deg) translate(-9px, 12px);
+    }
+    .icon:hover div.bar:nth-of-type(2) {
+        transform-origin: top;
+        transform: rotatez(-45deg);
+    }
+    .icon:hover div.bar:nth-of-type(3) {
+        transform-origin: bottom;
+        width: 50%;
+        transform: translate(-2px, -5px) rotatez(45deg);
     }
 }

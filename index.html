@@ -32,10 +32,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/index.css">
     
-    <script src="/static/js/franc.js"></script>
+    <script src="/static/js/franc.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/stopword/dist/stopword.umd.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip/dist/jszip.min.js" defer></script>
     <script src="/static/js/wrapped.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/stopword/dist/stopword.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jszip/dist/jszip.min.js"></script>
 </head>
 <body>
     <div class="page active" id="main">
@@ -50,6 +50,7 @@
 
         <nav id="nav-menu">
             <a href="https://www.kipteam.net/" target="_blank">About</a>
+            <a onclick="loadPage('how')">How</a>
             <a href="/privacy-policy">Privacy</a>
             <div class="button" id="donate-button-container" onclick="document.querySelector('img#donate-button').click()">
                 Donate
@@ -104,23 +105,23 @@
     
     <div class="page" id="how">
         <div class="button-wrapper privacy">
-            <button onclick="loadPage('android-1')"><img src="/static/images/android.png" alt="android"/></button>
-            <button onclick="loadPage('apple-1')"><img src="/static/images/apple.png" alt="apple"/></button>
+            <button onclick="loadPage('android-1')"><img src="/static/images/android.png" alt="android" loading="lazy"/></button>
+            <button onclick="loadPage('apple-1')"><img src="/static/images/apple.png" alt="apple" loading="lazy"/></button>
         </div>
         <h2>During the guide, click to proceed.</h2>
     </div>
 
     <div class="page instruction" id="android-1">
-        <img onclick="nextStep()" src="/static/images/android-1.jpg" alt="step 1"> 
+        <img onclick="nextStep()" src="/static/images/android-1.jpg" alt="step 1" loading="lazy"> 
     </div>
     <div class="page instruction" id="android-2">
-        <img onclick="nextStep()" src="/static/images/android-2.jpg" alt="step 2"> 
+        <img onclick="nextStep()" src="/static/images/android-2.jpg" alt="step 2" loading="lazy"> 
     </div>
     <div class="page instruction" id="android-3">
-        <img onclick="nextStep()" src="/static/images/android-3.jpg" alt="step 3"> 
+        <img onclick="nextStep()" src="/static/images/android-3.jpg" alt="step 3" loading="lazy"> 
     </div>
     <div class="page instruction" id="android-4">
-        <img onclick="nextStep()" src="/static/images/android-4.jpg" alt="step 4"> 
+        <img onclick="nextStep()" src="/static/images/android-4.jpg" alt="step 4" loading="lazy"> 
     </div>
     <div class="page instruction" id="android-5">
         <ol>
@@ -128,7 +129,7 @@
             <li>Download the shared folder</li>
             <li>Click on this page to return and upload it</li>
         </ol>
-        <img onclick="loadPage('main')" src="/static/images/android-5.jpg" alt="step 5"> 
+        <img onclick="loadPage('main')" src="/static/images/android-5.jpg" alt="step 5" loading="lazy"> 
     </div>
 
     <div class="page" id="apple-1">
@@ -138,14 +139,5 @@
             <button onclick="loadPage('android-1')"><h2>Android</h2></button>
         </div>
     </div>
-
-    <script>
-        const navMenu = document.getElementById("nav-menu");
-        const navbar = document.getElementById("navbar");
-        function toggleNavbar() {
-            navMenu.classList.toggle("active");
-            navbar.classList.toggle("active");
-        }
-    </script>
 </body>
 </html>

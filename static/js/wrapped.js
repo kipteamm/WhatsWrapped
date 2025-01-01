@@ -72,8 +72,14 @@ const messageEdits = {};
 const mediaOmitted = {};
 let progressBar;
 let language;
+let navMenu;
+let navbar;
 
-function wrappedInit() {progressBar = document.getElementById("progress-bar");}
+function wrappedInit() {
+    progressBar = document.getElementById("progress-bar");
+    navMenu = document.getElementById("nav-menu");
+    navbar = document.getElementById("navbar");
+}
 
 async function detectLanguage(lines) {
     const sampleLines = lines.slice(0, 100);
@@ -285,6 +291,13 @@ function loadPage(newPage) {
     document.getElementById(pageId).classList.remove("active");
     pageId = newPage;
     document.getElementById(pageId).classList.add("active");
+    navMenu.classList.remove("active");
+    navbar.classList.remove("active");
+}
+
+function toggleNavbar() {
+    navMenu.classList.toggle("active");
+    navbar.classList.toggle("active");
 }
 
 function nextStep() {
