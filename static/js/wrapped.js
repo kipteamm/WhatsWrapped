@@ -166,6 +166,10 @@ const messageEditedPhrases = [
     "This message was edited",
     "Diese Nachricht wurde bearbeitet"
 ]
+const groupChanges = [
+    "changed this group",
+    "changed the group"
+]
 
 function processMessage(messageData) {
     if (messageData.message === undefined) return;
@@ -227,6 +231,7 @@ function processMessage(messageData) {
     let whatsappAction;
     if (mediaOmittedPhrases.some(phrase => messageData.message.includes(phrase))) whatsappAction = mediaOmitted;
     if (messageEditedPhrases.some(phrase => messageData.message.includes(phrase))) whatsappAction = messageEdits;
+    if (groupChanges.some(phrase => messageData.message.includes(phrase))) return;
     
     if (whatsappAction) {
         whatsappAction[messageData.person] = (whatsappAction[messageData.person] || 0) + 1;

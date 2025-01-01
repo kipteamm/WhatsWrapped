@@ -74,9 +74,9 @@ function dataInit() {
         document.getElementById("second_chatter").innerHTML = data.first_chatter[1][0];
         document.getElementById("chatter_gap").innerHTML = ((Math.abs(data.first_chatter[0][1] - data.first_chatter[1][1]) / data.first_chatter[0][1]) * 100).toFixed(3);
         pages.push(7);
-    } 
+    }
     
-    if (data.messages_per_participant[0][1] !== (data.messages_edit_per_participant[1][1] || 0)) {
+    if (data.messages_per_participant[0][1] !== (data.messages_edit_per_participant[1] || [0,0])[1]) {
         document.getElementById("most_messages").innerHTML = data.messages_per_participant[0][0];
         document.getElementById("most_messages_percentage").innerHTML = ((data.messages_per_participant[0][1] / data.total) * 100).toFixed(3);
         pages.push(8);
@@ -108,7 +108,7 @@ function dataInit() {
     } else if (data.messages_per_participant.length === 2) {
         document.getElementById("participant-1").innerText += data.messages_per_participant[1][0];
     } else if (data.messages_per_participant.length > 2) {
-        document.getElementById("participants").innerHTML = `<h4 class="stat visible">Group chat<div class="user-deco user-deco-0"></div><div class="user-deco user-deco-1"></div><div class="user-deco user-deco-2"></div></h4>`;
+        document.getElementById("stat-participants").innerHTML = `<h4 class="stat visible">Group chat<div class="user-deco user-deco-0"></div><div class="user-deco user-deco-1"></div><div class="user-deco user-deco-2"></div></h4>`;
     }
 
     const topWords = document.getElementById("top-words");
