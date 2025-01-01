@@ -31,25 +31,12 @@ body {
     flex: 1;
     background: rgb(0, 0, 0, .2);
     border-radius: 10px;
-    position: relative;
 }
-.page-indicator::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
+.page-indicator .progress {
     width: 0;
     height: 100%;
     background-color: white;
-    transition: 8s linear;
     border-radius: 10px;
-}
-.page-indicator.active::before {
-    width: 100%;
-}
-.page-indicator.finished::before {
-    transition: none;
-    width: 100%;
 }
 
 .emoji {

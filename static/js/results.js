@@ -123,7 +123,7 @@ function dataInit() {
     const pageIndicators = document.getElementById("page-indicators");
     pages.sort((a, b) => a - b);
     pages.forEach(page => {
-        pageIndicators.innerHTML += `<div class="page-indicator" id="page-indicator-${page}"></div>`;
+        pageIndicators.innerHTML += `<div class="page-indicator" id="page-indicator-${page}"><div class="progress"></div></div>`;
     });
 }
 
@@ -249,28 +249,56 @@ function daysInYear(year) {
     return ((year % 4 === 0 && year % 100 > 0) || year %400 == 0) ? 366 : 365;
 }
 
+window.onclick = (event) => {
+    if (pageIndex < 1) return;
+    if (event.target.closest("button")) return;
+
+    stop();
+    if (event.clientX < window.innerWidth / 2) {
+        previousPage(); 
+    } else {
+        nextPage();
+    }
+    start();
+}
+
 let pageIndex = 0;
 let intervalId = null;
 function nextPage() {
     if (pageIndex + 2 > pages.length) return;
+    if (pageIndex === 0) {
+        const el = document.documentElement;
+        const rfs = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen;
+        rfs.call(el);
+        drawCloud();
+    }
     
     document.getElementById(`page-${pages[pageIndex]}`).classList.remove("active");
-    document.getElementById(`page-indicator-${pages[pageIndex]}`).classList.add("finished");
+    document.querySelector(`#page-indicator-${pages[pageIndex]} .progress`).style.cssText = "transition:none;width:100%;"
     pageIndex++;
     document.getElementById(`page-${pages[pageIndex]}`).classList.add("active");
-    document.getElementById(`page-indicator-${pages[pageIndex]}`).classList.add("active");
+    document.querySelector(`#page-indicator-${pages[pageIndex]} .progress`).style.cssText = "transition:8s linear;width:100%;"
+    if (!intervalId) return start();
+}
+
+function previousPage() {
+    if (pageIndex === 0) return;
+    
+    document.getElementById(`page-${pages[pageIndex]}`).classList.remove("active");
+    document.querySelector(`#page-indicator-${pages[pageIndex]} .progress`).style.cssText = "transition:none;width:0;";
+    pageIndex--;
+    document.getElementById(`page-${pages[pageIndex]}`).classList.add("active");
+    const progressBar = document.querySelector(`#page-indicator-${pages[pageIndex]} .progress`);
+    progressBar.style.cssText = "transition:none;width:0;";
+    progressBar.offsetWidth;
+    progressBar.style.cssText = "transition:8s linear;width:100%;"
+
     if (!intervalId) return start();
 }
 
 function start() {
     if (intervalId) return;
-    if (pageIndex === 0) {
-        const el = document.documentElement;
-        const rfs = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen;
-        rfs.call(el);
-    }
 
-    drawCloud();
     intervalId = setInterval(nextPage, 8000);
     document.getElementById("share").classList.remove("active");
 }
@@ -281,17 +309,15 @@ function stop() {
     intervalId = null;
 }
 
-window.onclick = (event) => {
-    if (pages.length - 2 < pageIndex) return;
-    stop();
-    nextPage();
-    start();
-}
-
-function loadPage(newpageIndex) {
-    document.getElementById(`page-${pageIndex}`).classList.remove("active");
-    pageIndex = newpageIndex;
-    document.getElementById(`page-${pageIndex}`).classList.add("active");
+function restart() {
+    document.querySelectorAll(".page-indicator .progress").forEach(progress => {
+        progress.style.cssText = "transition:none;width:0;";
+    });
+    document.getElementById(`page-${pages[pageIndex]}`).classList.remove("active");
+    document.getElementById(`page-0`).classList.add("active");
+    pageIndex = 0;
+    
+    document.getElementById("share").classList.remove("active");
 }
 
 let isGenerating = false;
@@ -398,7 +424,7 @@ document.addEventListener("keydown", (event)=> {
 });
 
 function toggleShare() {
-    if (pageIndex > pages.length - 2) return;
+    if (pageIndex > pages.length - 2 || pageIndex === 0) return;
     stop();
     document.getElementById("share").classList.toggle("active");
     if (!document.getElementById("share").classList.contains("active")) return nextPage();

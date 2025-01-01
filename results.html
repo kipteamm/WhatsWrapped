@@ -25,7 +25,7 @@
 
     <div class="page active" id="page-0">
         <div class="button-wrapper">
-            <button onclick="start()"><h2 class="visible">Ready?</h2></button>
+            <button onclick="nextPage()"><h2 class="visible">Ready?</h2></button>
         </div>
         <h4 class="share-message small">Swipe up to share your current slide</h4>
         <h4 class="share-message big">Press arrow up to share your current slide</h4>
@@ -169,6 +169,7 @@
     </div>
 
     <div class="share" id="share">
+        <div class="emoji" onclick="restart()">🔁</div>
         <div class="emoji" onclick="generateImage(`page-${pageId}`)">🔗</div>
         <div class="emoji" onclick="nextPage()">▶</div>
     </div>
