@@ -46,3 +46,7 @@ button:hover::before {
     top: 10px;
     left: 10px;
 }
+
+a {
+    color: #48eb83;
+}
