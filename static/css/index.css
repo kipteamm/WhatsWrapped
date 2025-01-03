@@ -269,6 +269,7 @@ button img {
 .instruction ol {
     position: absolute;
     top: 15px;
+    margin: 15px;
     background-color: #25d366;
     border: 2px solid black;
     border-radius: 15px;

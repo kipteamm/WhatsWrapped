@@ -250,7 +250,7 @@ function daysInYear(year) {
 }
 
 window.onclick = (event) => {
-    if (pageIndex < 1) return;
+    if (pageIndex < 1 || pageIndex + 2 > pages.length) return;
     if (event.target.closest("button")) return;
 
     stop();
