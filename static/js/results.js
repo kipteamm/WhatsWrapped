@@ -354,6 +354,7 @@ async function generateImage(id) {
         borderRadius: element.style.borderRadius
     };
 
+    const scale = window.devicePixelRatio;
     const computedStyle = window.getComputedStyle(element);
     const rect = element.getBoundingClientRect();
 
@@ -369,8 +370,14 @@ async function generateImage(id) {
         height: rect.height,
         style: {
             transform: 'none',
-            'transform-origin': 'center'
-        }
+            'transform-origin': 'center',
+            '-webkit-font-smoothing': 'antialiased',
+            'text-rendering': 'optimizeLegibility'
+        },
+        scale: scale,
+        cacheBust: true,
+        imagePlaceholder: undefined,
+        pixelRatio: scale
     };
 
     return domtoimage.toPng(element, options)
