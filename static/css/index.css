@@ -1,5 +1,7 @@
 :root {
     --font-family: "Afacad Flux";
+    --bg: #148578;
+    --bg-sec: #24b35a;
 }
 
 * {
@@ -23,7 +25,7 @@ body {
 }
 
 .page {
-    background-color: #075e54;
+    background-color: var(--bg);
     height: 100vh;
     width: 100vw;
     visibility: hidden;
@@ -49,7 +51,7 @@ body {
     text-align: center;
 }
 button {
-    background: #25d366;
+    background: var(--bg-sec);
     border: 3px solid black;
     border-radius: 15px;
     cursor: pointer;
@@ -99,7 +101,7 @@ p {
 
 .navbar {
     display: flex;
-    background-color: #25d366;
+    background-color: var(--bg-sec);
     border-bottom: 3px solid black;
     position: absolute;
     top: 0px;
@@ -154,7 +156,7 @@ nav {
     width: calc(100% + 3px);
     margin-left: -3px;
     border-left: 3px solid black;
-    background: #075e54;
+    background: var(--bg);
     bottom: 0%;
     left: 110%;
     height: calc(100% - 67.5px);
@@ -181,8 +183,13 @@ nav .button {
     font-weight: bold;
     text-decoration: none;
     border-radius: 15px;
-    background-color: #25d366;
+    background-color: var(--bg-sec);
     cursor: pointer;
+    transition: .2s;
+}
+nav a:hover,
+nav .button:hover {
+    background-color: #48eb83;
 }
 div#donate-button {
     width: 0px;
@@ -207,11 +214,11 @@ p.disclaimer {
     height: 100%;
     width: 0;
     border-radius: 50px;
-    background: repeating-linear-gradient(45deg, #25d366, #25d366 10px, #075e54 10px, #075e54 15px);
+    background: repeating-linear-gradient(45deg, var(--bg-sec), var(--bg-sec) 10px, var(--bg) 10px, var(--bg) 15px);
 }
 
 label {
-    background: #25d366;
+    background: var(--bg-sec);
     border: 3px solid black;
     height: 20vh;
     display: flex;
@@ -245,7 +252,7 @@ label:hover {
 }
 
 a {
-    color: #25d366;
+    color: var(--bg-sec);
 }
 
 .button-wrapper.privacy {
@@ -270,7 +277,7 @@ button img {
     position: absolute;
     top: 15px;
     margin: 15px;
-    background-color: #25d366;
+    background-color: var(--bg-sec);
     border: 2px solid black;
     border-radius: 15px;
     padding: 25px;
