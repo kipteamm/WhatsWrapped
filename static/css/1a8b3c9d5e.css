@@ -172,7 +172,7 @@ nav.active {
     left: 0;
 }
 
-nav a,
+nav a:not(.social),
 nav .button {
     border: 3px solid black;
     color: black;
@@ -187,9 +187,12 @@ nav .button {
     cursor: pointer;
     transition: .2s;
 }
-nav a:hover,
+nav a:not(.social):hover,
 nav .button:hover {
     background-color: #48eb83;
+}
+nav a.social:hover {
+    transform: scale(1.1);
 }
 div#donate-button {
     width: 0px;
@@ -199,6 +202,17 @@ p.disclaimer {
     font-size: 14px;
     margin: 0px;
     width: 60%;
+}
+nav .socials {
+    display: flex;
+    gap: 15px;
+    position: fixed;
+    bottom: 50px;
+}
+nav .socials img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
 }
 
 .progress-bar {
