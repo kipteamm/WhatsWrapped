@@ -95,7 +95,7 @@ function dataInit() {
         pages.push(10);
     }
 
-    if (data.top_10_emojis.total > 0) {
+    if (data.top_10_emojis[0][1] > 0) {
         document.getElementById("total_emojis").innerHTML = data.top_10_emojis[0][1];
         emojiChart();
         pages.push(13);
