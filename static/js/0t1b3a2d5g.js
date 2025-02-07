@@ -250,6 +250,7 @@ function daysInYear(year) {
 }
 
 window.onclick = (event) => {
+    if (event.target.closest(".button")) return;
     if (pageIndex < 1 || pageIndex + 2 > pages.length) return;
     if (event.target.closest("button")) return;
 
@@ -322,8 +323,9 @@ function restart() {
 
 let isGenerating = false;
 
-async function generateImage(id) {
+async function generateImage() {
     if (isGenerating) return;
+    const id = `page-${pages[pageIndex]}`;
     isGenerating = true;
 
     try {
