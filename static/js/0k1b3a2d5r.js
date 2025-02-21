@@ -268,9 +268,13 @@ let intervalId = null;
 function nextPage() {
     if (pageIndex + 2 > pages.length) return;
     if (pageIndex === 0) {
-        const el = document.documentElement;
-        const rfs = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen;
-        rfs.call(el);
+        try {
+            const el = document.documentElement;
+            const rfs = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen;
+            rfs.call(el);
+        } catch {
+            console.log("could not fullscreen.");
+        }
         drawCloud();
     }
     
